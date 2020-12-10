@@ -1,0 +1,5 @@
+{
+    "git.ignoreLimitWarning": true,
+    "json.maxItemsComputed": 50000,
+    "editor.autoClosingBrackets": "always"
+}
