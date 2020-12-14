@@ -127,3 +127,18 @@ Breadcrumbs::for('staff-storan-detail', function ($trail) {
     $trail->push('Storan Fail', route('staff-storan'));
     $trail->push('Storan Fail - [Detail]', route('staff-storan-detail'));
 });
+
+Breadcrumbs::for('staff-agihan-tugas', function ($trail) {
+    $trail->push('Dashboard', route('staff-dashboard'));
+    $trail->push('Agihan Tugas', route('staff-agihan-tugas'));
+});
+
+Breadcrumbs::for('add-staff', function ($trail) {
+    $trail->push('Dashboard', route('staff-dashboard'));
+    $trail->push('Tambah Staff', route('add-staff'));
+});
+
+Breadcrumbs::for('user-management', function ($trail) {
+    $trail->push('Dashboard', route('staff-dashboard'));
+    $trail->push('Pengguna Sistem', route('user-management'));
+});

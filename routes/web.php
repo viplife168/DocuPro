@@ -177,4 +177,16 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/staff/storan-detail', 'StaffController@addFileToStorage')->name('staff-storan-detail');
 
+    Route::get('/staff/agihan-tugas', function () {
+        return view('staff.agihan-tugas');
+    })->name('staff-agihan-tugas');
+
+    Route::get('/add-staff', function () {
+        return view('administrative.add-staff');
+    })->name('add-staff');
+
+    Route::get('/user-management', function () {
+        return view('administrative.user-management');
+    })->name('user-management');
+
 });
