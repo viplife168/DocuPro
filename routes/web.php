@@ -189,4 +189,8 @@ Route::middleware('auth')->group(function () {
         return view('administrative.user-management');
     })->name('user-management');
 
+    Route::get('/staff/Detail-Agihan', function () {
+        return view('staff.Detail-Agihan');
+    })->name('Detail-Agihan');
+
 });

@@ -142,3 +142,8 @@ Breadcrumbs::for('user-management', function ($trail) {
     $trail->push('Dashboard', route('staff-dashboard'));
     $trail->push('Pengguna Sistem', route('user-management'));
 });
+
+Breadcrumbs::for('Detail-Agihan', function ($trail) {
+    $trail->push('Dashboard', route('staff-dashboard'));
+    $trail->push('Detail Agihan', route('Detail-Agihan'));
+});
