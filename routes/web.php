@@ -193,4 +193,8 @@ Route::middleware('auth')->group(function () {
         return view('staff.Detail-Agihan');
     })->name('Detail-Agihan');
 
+    Route::get('/staff/Pengguna-Sistem-Detail', function () {
+        return view('staff.Pengguna-Sistem-Detail');
+    })->name('Pengguna-Sistem-Detail');
+
 });
