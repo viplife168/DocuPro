@@ -91,7 +91,7 @@
                                 @foreach ($addedFiles as $key=>$aFail)
                                 <tr class="text-white">
                                     <th scope="row">{{$key+1}}</th>
-                                    <td>{{$aFail}}</td>
+                                    <td><input type="text" name="addedFiles[]" id="addedFiles[]" value="{{$aFail}}" style="border: 0px" /></td>
                                     <td class="" style="text-align:right"><button type="submit" class="btn btn-danger"  name="btnSubmit" id="btnSubmit" value="Buang-{{$aFail}}"><i class="uil-minus"></i></button></td>
                                 </tr>
                                 @endforeach
@@ -111,7 +111,7 @@
             </div>
 
         </div>
-        <input type="submit" class="form-control btn btn-primary" id="btnSubmit" name="btnSubmit" value="Hantar">
+        <input type="submit" class="form-control btn btn-primary" id="btnSubmit" name="btnSubmit" value="Cetak">
     </div>
 </form>
 @endsection

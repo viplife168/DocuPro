@@ -16,6 +16,7 @@ class ReservationController extends Controller
     {
         $this->middleware('auth');
     }
+    \
     public function newReservation(Request $request)
     {
         $data = $request->all();
@@ -44,7 +45,8 @@ class ReservationController extends Controller
         elseif (stristr($request->btnSubmit, '-', true) == 'Tambah')
         {
             $nofail = trim(stristr($request->btnSubmit, '-'), '-');
-            if ($data['addedFiles'] == '') $data['addedFiles'] = array();
+            if ($data['addedFiles'] == '') $data['addedFiles'] = array();\
+            ]
             array_push($data['addedFiles'], $nofail);
             return view('reservation.new',$data);
         }

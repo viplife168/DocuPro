@@ -63,41 +63,7 @@ class StaffController extends Controller
         }
         elseif ($request->btnSubmit == 'Hantar')
         {
-            // $reservation = Reservation::create([
-            //     'user_id' => auth()->user()->id,
-            //     'department' => $request->department,
-            //     'apply_date' => now(),
-            //     'collection_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->collection_date))),
-            //     'return_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->return_date))),
-            //     'res_status' => 'New',
-            //     'res_notes' => $request->notes,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ]);
-            // $reservation->save();
-
-            // foreach ($request->addedFiles as $file) {
-
-            //     $reservation->file_details()->create([
-            //         'file_user_id' => auth()->user()->id,
-            //         'file_number' => $file,
-            //         'res_collect_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->collection_date))),
-            //         'res_return_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->return_date))),
-            //         'res_renew_count' => 0,
-            //         'file_status' => 'Booked',
-            //         'file_notes' => $request->notes,
-            //         'created_at' => now(),
-            //         'updated_at' => now(),
-            //     ]);
-            //     $reservation->save();
-            // }
-
-
-            // $status = [
-            //     'type' =>'primary',
-            //     'message' => 'Permohonan anda telah berjaya dihantar',
-            // ];
-            // return back()->withStatus($status);
+            return view('print.carian');
         }
 
     }
