@@ -9,12 +9,17 @@ use App\Http\Controllers\SppController as SPP;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\FileDetailController as File;
+use App\Profile;
+use Illuminate\Support\Facades\Gate;
+use App\User;
 
 class StaffController extends Controller
 {
+    private $stafflist;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->stafflist = Profile::where('department','=','Cawangan Dokumentasi Dan Rekod');
     }
     public function viewCarianStaff()
     {
@@ -70,6 +75,22 @@ class StaffController extends Controller
     public function addFileToStorage(Request $request)
     {
         return view('staff.storan-detail',$request);
+    }
+    public function viewPermohonanBaru()
+    {
+        $user = auth()->user();
+        if ((Gate::allows('isAdmin'))|| ((Gate::allows('isSupervisor'))))
+        {
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'New');
+
+        }
+        else
+        {
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'Assigned')
+                ->where('incharge_person','=',$user->name);
+
+        }
+        return view('staff.permohonan',$data);
     }
 
 }

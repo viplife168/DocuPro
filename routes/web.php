@@ -158,9 +158,7 @@ Route::middleware('auth')->group(function () {
         return view('staff.dashboard');
     })->name('staff-dashboard');
 
-    Route::get('/staff/permohonan', function () {
-        return view('staff.permohonan');
-    })->name('staff-permohonan');
+    Route::get('/staff/permohonan','StaffController@viewPermohonanBaru')->name('staff-permohonan');
 
 
     Route::get('/staff/pemulangan', function () {
