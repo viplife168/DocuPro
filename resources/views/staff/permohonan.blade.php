@@ -6,6 +6,11 @@
 @section('topscripts')
 @endsection
 
+@php
+    use App\Http\Controllers\ReservationController;
+    use App\Http\Controllers\SysSettingController as Sys;
+@endphp
+
 @section('content')
 <form method="POST" action="{{url('permohonan-aktif')}}">
     @csrf
@@ -42,7 +47,7 @@
 
                 <tr>
                     <th colspan="3">
-                        <p>{{$UserRole}}</p>
+                        <p>Tiada Permohonan Baru</p>
                     <th>
                 </tr>
             </tbody>

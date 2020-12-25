@@ -16,7 +16,7 @@ class CreateSysSettingsTable extends Migration
         Schema::create('sys_settings', function (Blueprint $table) {
             $table->id();
             $table->string('setting_key');
-            $table->string('setting_value');
+            $table->text('setting_value');
             $table->timestamps();
         });
     }

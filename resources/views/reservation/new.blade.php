@@ -45,7 +45,7 @@ $departments = Sys::showSetting('departments');
             <div class="form-group">
                 <label>Tarikh Pungut</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy"
+                    <input type="text" class="form-control" autocomplete="off" data-provide="datepicker" data-date-format="dd/mm/yyyy"
                         data-date-autoclose="true" id="collection_date" name="collection_date"  value="{{$collection_date ?? ''}}">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -57,7 +57,7 @@ $departments = Sys::showSetting('departments');
             <div class="form-group">
                 <label>Tarikh Pulang</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy"
+                    <input type="text" class="form-control" autocomplete="off" data-provide="datepicker" data-date-format="dd/mm/yyyy"
                         data-date-autoclose="true" id="return_date" name="return_date" value="{{$return_date ?? ''}}">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>

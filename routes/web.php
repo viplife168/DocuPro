@@ -159,6 +159,7 @@ Route::middleware('auth')->group(function () {
     })->name('staff-dashboard');
 
     Route::get('/staff/permohonan','StaffController@viewPermohonanBaru')->name('staff-permohonan');
+    Route::get('/staff/permohonan-baru/{id}','StaffController@getPermohonanBaru')->name('staff-permohonan-detail');
 
 
     Route::get('/staff/pemulangan', function () {

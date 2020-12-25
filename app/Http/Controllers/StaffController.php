@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\FileDetailController as File;
 use App\Profile;
+use App\Spp as AppSpp;
 use Illuminate\Support\Facades\Gate;
 use App\User;
 
@@ -81,8 +82,7 @@ class StaffController extends Controller
         $user = auth()->user();
         if ((Gate::allows('isAdmin'))|| ((Gate::allows('isSupervisor'))))
         {
-            $data['new_reservation'] =  Reservation::where('res_status', '=', 'New');
-
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'New')->get();
         }
         else
         {
@@ -92,5 +92,19 @@ class StaffController extends Controller
         }
         return view('staff.permohonan',$data);
     }
+    public function getPermohonanBaru($id)
+    {
+        $data['file_details'] = array();
+        $data['reservation'] = Reservation::find($id);
+        $files = FileDetail::where('reservation_id', '=', $id)->get();
+        foreach ($files as $file)
+        {
+            $details = AppSpp::where('file_number',$file->file_number)->limit(1)->get();
+            array_push($data['file_details'],$details[0]);
+        }
 
+        $data['usr'] = User::select('name')->where('id',$data['reservation']['user_id'])->get();
+        $data['user_name'] = $data['usr'][0]->name;
+        return view('staff.permohonan-detail', $data);
+    }
 }
