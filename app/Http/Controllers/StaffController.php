@@ -16,7 +16,6 @@ use App\User;
 
 class StaffController extends Controller
 {
-    private $stafflist;
     public function __construct()
     {
         $this->middleware('auth');
@@ -67,9 +66,17 @@ class StaffController extends Controller
             }
             return view('staff.carian',$data);
         }
-        elseif ($request->btnSubmit == 'Hantar')
+        elseif ($request->btnSubmit == 'Cetak')
         {
-            return view('print.carian');
+
+            $data['file_details'] = array();
+            foreach($data['addedFiles'] as $file)
+            {
+                $details = AppSpp::where('file_number',$file)->limit(1)->get();
+                array_push($data['file_details'],$details[0]);
+            }
+            // dd($data);
+            return view('print.carian',$data);
         }
 
     }
@@ -94,6 +101,7 @@ class StaffController extends Controller
     }
     public function getPermohonanBaru($id)
     {
+        $data['myStaff'] = $this->getMyStaff();
         $data['file_details'] = array();
         $data['reservation'] = Reservation::find($id);
         $files = FileDetail::where('reservation_id', '=', $id)->get();
@@ -105,6 +113,14 @@ class StaffController extends Controller
 
         $data['usr'] = User::select('name')->where('id',$data['reservation']['user_id'])->get();
         $data['user_name'] = $data['usr'][0]->name;
+        // dd($data);
         return view('staff.permohonan-detail', $data);
+    }
+    public static function getMyStaff()
+    {
+        $user = User::find(auth()->user()->id);
+        $department =  $user->profile->department;
+        $users = ProfileController::getUserFromDepartment($department);
+        return $users;
     }
 }

@@ -4,12 +4,14 @@
 ])
 
 @section('topscripts')
-
+<style>
+    .highlight {
+      background-color: yellow;
+    }
+    </style>
 @endsection
 
 @section('content')
-<form action="" method="post">
-    @csrf
     <div class="form-group row">
         <div class="col-md-2">Bilik Fail</div>
         <div class="col-md-10"><strong>
@@ -38,26 +40,25 @@
             </strong>
         </div>
     </div>
-    <div class="form-group row">
-        <div class="col-md-2">Kotak</div>
-        <div class="col-md-10"><strong>
-                5
-            </strong>
-        </div>
-    </div>
     <hr>
-    <div class="form-group row">
-        <label class="col-md-2 col-form-label">Tambah Fail</label>
-        <div class="col-md-10">
-            <div class="input-group">
-                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary btn-small" name="btn-tambah" id="btn-tambah"> Tambah
-                        Fail</button>
-                </div>
+    <form name="addfile" class="repeater" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div data-repeater-list="file_list">
+            <div data-repeater-item class="row">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="file_number" name="file_number"aria-label="File Number" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button data-repeater-delete class="btn btn-danger btn-outline-secondary" type="button">Delete</button>
+                    </div>
+                  </div>
             </div>
+
         </div>
-    </div>
+        <input data-repeater-create type="button" class="btn btn-success mt-3 mt-lg-0" id="btn-tambah" name="btn-tambah" autofocus value="Tambah"/>
+    <br>
+    <br>
+    <input type="submit" class="btn btn-block btn-primary" value="Simpan"/>
+    </form>
     <div class="form-group row">
         <label class="col-md-2 col-form-label">Bilangan Fail</label>
         <div class="col-md-10">
@@ -76,14 +77,15 @@
                     <th>No Kp</th>
                  </tr>
             </thead>
-            @if (!empty($fail))
+            @if (!empty($files))
             <tbody>
-                @foreach ($fail as $key=>$res)
+                @foreach ($files as $key=>$res)
+                <input type="hidden" id="files[]" name="files[]" value="{{$res}}" />
                 <tr class="table-warning">
                     <th scope="row">{{$key+1}}</th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{$res->file_number}}</td>
+                    <td>{{$res->name}}</td>
+                    <td>{{$res->ic_number}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -99,9 +101,13 @@
             @endif
         </table>
 
-</form>
 @endsection
 
 @section('bottomscripts')
+<script>
+
+</script>
 <script src="/mini/libs/select2/js/select2.min.js"></script>
+<script src="/mini/libs/jquery.repeater/jquery.repeater.min.js"></script>
+<script src="/mini/js/pages/form-repeater-storan-detail.int.js"></script>
 @endsection

@@ -16,6 +16,10 @@
     <link href="{{ asset('mini/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
 
     <style>
+        header {
+            top:0px;
+            position: fixed;
+        }
         body {
             width: 100%;
             height: 100%;
@@ -57,6 +61,10 @@
                 width: 210mm;
                 height: 297mm;
             }
+            header{
+                top:0px;
+                position: fixed;
+            }
 
             .page {
 
@@ -84,13 +92,20 @@
 </head>
 
 @php
-$m=125;
-$p=40;
+$m=count($file_details);
+$p=25;
 $n=$m/$p;
+$x=0;
+// dd($file_details);
 @endphp
 
 <body>
     <div class="container">
+        <div class="cetak row">
+            <div class="col">
+                
+            </div>
+        </div>
         <div class="book">
             @while ($n >0)
             <div class="page">
@@ -102,9 +117,10 @@ $n=$m/$p;
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="text-center font-weight-bold">
-                         SENARAI CARIAN FAIL
+                            SENARAI CARIAN FAIL
                         </h5>
                         <h6 class="text-center">{{now()}}</h6>
+                        <h6 class="text-center">Dicetak oleh {{$user->name}}</h6>
                     </div>
                 </div>
                 {{-- <div class="row pt-3">
@@ -114,56 +130,69 @@ $n=$m/$p;
                                 <tr>
                                     <td class="text-left"><strong>Ruj. Kami : </strong> PTPK.PM.100-1/1 Jld.4 (14)</td>
                                     <td class="text-right"><strong>Tarikh : </strong>{{now()}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> --}}
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table brd">
-                            <thead class="brd">
-                                <tr class="brd">
-                                    <td><strong>#</strong></td>
-                                    <td><strong>No Fail</strong></td>
-                                    <td><strong>Nama Peminjam</strong></td>
-                                    <td><strong>Status</strong></td>
-                                    <td><strong>Lokasi</strong></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $q=40;
-                                @endphp
-                                @while ($q >0)
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                @php
-                                    $q=$q-1;
-                                    $p=$p-1;
-                                    $m=$m-1;
-                                @endphp
-                                @endwhile
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                </tr>
+                </tbody>
+                </table>
             </div>
-            @php
-                $n=$n-1;
-            @endphp
-            @endwhile
+        </div> --}}
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table brd">
+                    <thead class="brd">
+                        <tr class="brd header">
+                            <td><strong>#</strong></td>
+                            <td><strong>No Fail</strong></td>
+                            <td><strong>Nama Peminjam</strong></td>
+                            <td><strong>Status</strong></td>
+                            <td><strong>Lokasi</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                        $q=25;
+                        @endphp
+                        @while ($q >0)
+                        @if ($x<$m)
+                            <tr>
+                            <td>{{$x+1}}</td>
+                            <td>{{$file_details[$x]->file_number}}</td>
+                            <td>{{$file_details[$x]->name}}</td>
+                            <td>{{$file_details[$x]->status}}</td>
+                            <td>{{$file_details[$x]->location}}</td>
+                            </tr>
 
+                        @else
+                            <tr>
+                                <td>{{$x+1}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                        @endif
+                        @php
+                        $q--;
+                        $p--;
+                        // $m--;
+                        $x++;
+                        @endphp
+                        @endwhile
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+    @php
+    $n=$n-1;
+    @endphp
+    @endwhile
+
+    </div>
 
     </div>
 </body>
 
 <script>
-    // window.print();
+    window.print();
 </script>

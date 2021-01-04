@@ -4,6 +4,8 @@
 ])
 
 @section('topscripts')
+<link href="/mini/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="/mini/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -30,9 +32,19 @@
 </div>
 <div class="row pt-3    ">
     <div class="col-md-12">
+        <div class="row">
+            <div class="col form-group">
+                <select class="form-control select2" id="allToStaff" name="allToStaff">
+                        <option value="">Sila Pilih Staff Untuk Semua Fail....</option>
+                    @foreach ($myStaff as $staff)
+                        <option>{{$staff->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <table class="table table-hover table-sm">
             <thead>
-                <tr>
+                <tr  class="table-warning">
                     <th>#</th>
                     <th>No Fail</th>
                     <th>Peminjam</th>
@@ -47,7 +59,14 @@
                     <td>{{$file->file_number}}</td>
                     <td>{{$file->name}}</td>
                     <td>{{$file->ic_number}}</td>
-                    <td></td>
+                    <td>
+                        <select class="form-control select2" id="allToStaff" name="allToStaff">
+                            <option value="">Sila Pilih Staff....</option>
+                        @foreach ($myStaff as $staff)
+                            <option>{{$staff->name}}</option>
+                        @endforeach
+                    </select>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -62,4 +81,8 @@
 @endsection
 
 @section('bottomscripts')
+<script src="/mini/libs/select2/js/select2.min.js"></script>
+<script src="/mini/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="/mini/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+
 @endsection

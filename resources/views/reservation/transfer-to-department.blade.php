@@ -196,7 +196,7 @@ $departments = Sys::showSetting('departments');
 <script src="mini/libs/select2/js/select2.min.js"></script>
 <script src="mini/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="mini/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-{{-- <script src="mini/js/pages/form-advanced.init.js"></script> --}}
+<script src="mini/js/pages/form-advanced.init.js"></script>
 <!-- Required datatable js -->
 <script src="mini/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="mini/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>

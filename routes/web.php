@@ -174,6 +174,10 @@ Route::middleware('auth')->group(function () {
         return view('staff.storan');
     })->name('staff-storan');
 
+    Route::get('/staff/storan-detail', function () {
+        return view('staff.storan-detail');
+    })->name('staff-storan-detail-get');
+
     Route::post('/staff/storan-detail', 'StaffController@addFileToStorage')->name('staff-storan-detail');
 
     Route::get('/staff/agihan-tugas', function () {
