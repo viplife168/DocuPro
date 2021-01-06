@@ -98,7 +98,11 @@ class ProfileController extends Controller
     }
     public static function getUserFromDepartment($department)
     {
-        $users = Profile::with('user')->where('department',$department)->get();
+        // $users = Profile::with('user')->where('department',$department)->get();
+        $users = User::whereHas('profile',function (Builder $query) use($department)
+        {
+            $query->where('department',$department);
+        })->get();
         return $users;
     }
     public static function name($id)

@@ -103,6 +103,13 @@ Breadcrumbs::for('staff-permohonan', function ($trail) {
     $trail->push('Dashboard', route('staff-dashboard'));
     $trail->push('Permohonan', route('staff-permohonan'));
 });
+
+Breadcrumbs::for('staff-permohonan-detail', function ($trail,string $id) {
+    $trail->push('Dashboard', route('staff-dashboard'));
+    $trail->push('Permohonan', route('staff-permohonan'));
+    $trail->push('Detail Permohonan', route('staff-permohonan-detail',$id));
+});
+
 Breadcrumbs::for('staff-carian', function ($trail) {
     $trail->push('Dashboard', route('staff-dashboard'));
     $trail->push('Carian', route('view-staff-carian'));

@@ -6,6 +6,11 @@
 @section('topscripts')
 @endsection
 
+@php
+    use App\Http\Controllers\ReservationController;
+    use App\Http\Controllers\SysSettingController as Sys;
+@endphp
+
 @section('content')
 <form method="POST" action="{{url('permohonan-aktif')}}">
     @csrf
@@ -20,9 +25,9 @@
                     <th>Tindakan</th>
                 </tr>
             </thead>
-            @if (!empty($permohonan))
+            @if (!empty($new_reservation))
             <tbody>
-                @foreach ($permohonan as $key=>$res)
+                @foreach ($new_reservation as $key=>$res)
                 @php
                     $file_count = ReservationController::countFileDetails($res->id);
                 @endphp
@@ -32,7 +37,7 @@
                     <td style="text-align: center">{{$file_count}}</td>
                     <td>{{$res->res_status}}</td>
                     <td>
-                        <a href="{{url('permohonan-aktif/'.$res->id)}}" class="button btn btn-sm btn-success">Lihat Detail</a>
+                        <a href="{{url('/staff/permohonan-baru/'.$res->id)}}" class="button btn btn-sm btn-success">Lihat Detail</a>
                     </td>
                 </tr>
                 @endforeach
@@ -42,7 +47,7 @@
 
                 <tr>
                     <th colspan="3">
-                        <p>Tiada Permohonan Aktif</p>
+                        <p>Tiada Permohonan Baru</p>
                     <th>
                 </tr>
             </tbody>

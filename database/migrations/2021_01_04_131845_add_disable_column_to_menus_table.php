@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSysSettingsTable extends Migration
+class AddDisableColumnToMenusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateSysSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sys_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('setting_key');
-            $table->text('setting_value');
-            $table->timestamps();
+        Schema::table('menus', function (Blueprint $table) {
+            $table->boolean("disabled")->default(false);
+            //
         });
     }
 
@@ -28,6 +26,8 @@ class CreateSysSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sys_settings');
+        Schema::table('menus', function (Blueprint $table) {
+            //
+        });
     }
 }

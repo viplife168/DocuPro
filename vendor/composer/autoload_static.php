@@ -541,6 +541,7 @@ class ComposerStaticInit5e123c407b9b8ad3f49f89f14fcaf3dd
         'App\\Http\\Controllers\\ReservationController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReservationController.php',
         'App\\Http\\Controllers\\SppController' => __DIR__ . '/../..' . '/app/Http/Controllers/SppController.php',
         'App\\Http\\Controllers\\StaffController' => __DIR__ . '/../..' . '/app/Http/Controllers/StaffController.php',
+        'App\\Http\\Controllers\\StorageController' => __DIR__ . '/../..' . '/app/Http/Controllers/StorageController.php',
         'App\\Http\\Controllers\\SysSettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/SysSettingController.php',
         'App\\Http\\Controllers\\TransferController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransferController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

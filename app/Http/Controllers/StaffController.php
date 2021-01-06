@@ -9,12 +9,20 @@ use App\Http\Controllers\SppController as SPP;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\FileDetailController as File;
+use App\Profile;
+use App\Spp as AppSpp;
+use Illuminate\Support\Facades\Gate;
+use App\User;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\SysSettingController as Sys;
+use App\Http\Controllers\StorageController as Store;
 
 class StaffController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->stafflist = Profile::where('department','=','Cawangan Dokumentasi Dan Rekod');
     }
     public function viewCarianStaff()
     {
@@ -61,49 +69,96 @@ class StaffController extends Controller
             }
             return view('staff.carian',$data);
         }
-        elseif ($request->btnSubmit == 'Hantar')
+        elseif ($request->btnSubmit == 'Cetak')
         {
-            // $reservation = Reservation::create([
-            //     'user_id' => auth()->user()->id,
-            //     'department' => $request->department,
-            //     'apply_date' => now(),
-            //     'collection_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->collection_date))),
-            //     'return_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->return_date))),
-            //     'res_status' => 'New',
-            //     'res_notes' => $request->notes,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ]);
-            // $reservation->save();
 
-            // foreach ($request->addedFiles as $file) {
-
-            //     $reservation->file_details()->create([
-            //         'file_user_id' => auth()->user()->id,
-            //         'file_number' => $file,
-            //         'res_collect_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->collection_date))),
-            //         'res_return_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->return_date))),
-            //         'res_renew_count' => 0,
-            //         'file_status' => 'Booked',
-            //         'file_notes' => $request->notes,
-            //         'created_at' => now(),
-            //         'updated_at' => now(),
-            //     ]);
-            //     $reservation->save();
-            // }
-
-
-            // $status = [
-            //     'type' =>'primary',
-            //     'message' => 'Permohonan anda telah berjaya dihantar',
-            // ];
-            // return back()->withStatus($status);
+            $data['file_details'] = array();
+            foreach($data['addedFiles'] as $file)
+            {
+                $details = AppSpp::where('file_number',$file)->limit(1)->get();
+                array_push($data['file_details'],$details[0]);
+            }
+            // dd($data);
+            return view('print.carian',$data);
         }
-
     }
     public function addFileToStorage(Request $request)
     {
-        return view('staff.storan-detail',$request);
+        $data = $request->all();
+        return view('staff.storan-detail',$data);
     }
+    public function addStorageItem(Request $request)
+    {
+        $data=$request->all();
+        if ($request->btn_tambah == "")
+        {
+            // $data['filecount']=0;
+            $data['files'] =  Store::getBilanganFail($request->bilik_fail,$request->rak,$request->tingkat,$request->seksyen);
+            // $data['filecount'] = $data['files']['count'];
+            // dd($data);
+            return view('staff.storan-detail',$data);
+        }
+        else{
+            $tambah = $request->btn_tambah;
+            switch($tambah){
+                case 'bilik-fail':
+                    Sys::addSetting('bilik_fail',$request->bilik_fail_baru);
+                    $data['bilik_fail'] = $request->bilik_fail_baru;
+                    break;
+                case 'rak':
+                    Sys::addSetting('rak',$request->rak_baru);
+                    $data['rak'] = $request->rak_baru;
+                    break;
+                case 'tingkat':
+                    Sys::addSetting('tingkat',$request->tingkat_baru);
+                    $data['tingkat'] = $request->tingkat_baru;
+                    break;
+                case 'seksyen':
+                    Sys::addSetting('seksyen',$request->seksyen_baru);
+                    $data['seksyen'] = $request->seksyen_baru;
+                    break;
+                default:
+            }
+            return view('staff.storan',$data);
+        }
+    }
+    public function viewPermohonanBaru()
+    {
+        $user = auth()->user();
+        if ((Gate::allows('isAdmin'))|| ((Gate::allows('isSupervisor'))))
+        {
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'New')->get();
+        }
+        else
+        {
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'Assigned')
+                ->where('incharge_person','=',$user->name);
 
+        }
+        return view('staff.permohonan',$data);
+    }
+    public function getPermohonanBaru($id)
+    {
+        $data['myStaff'] = $this->getMyStaff();
+        $data['file_details'] = array();
+        $data['reservation'] = Reservation::find($id);
+        $files = FileDetail::where('reservation_id', '=', $id)->get();
+        foreach ($files as $file)
+        {
+            $details = AppSpp::where('file_number',$file->file_number)->limit(1)->get();
+            array_push($data['file_details'],$details[0]);
+        }
+
+        $data['usr'] = User::select('name')->where('id',$data['reservation']['user_id'])->get();
+        $data['user_name'] = $data['usr'][0]->name;
+        // dd($data);
+        return view('staff.permohonan-detail', $data);
+    }
+    public static function getMyStaff()
+    {
+        $user = User::find(auth()->user()->id);
+        $department =  $user->profile->department;
+        $users = ProfileController::getUserFromDepartment($department);
+        return $users;
+    }
 }

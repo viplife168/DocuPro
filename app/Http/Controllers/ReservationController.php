@@ -16,6 +16,7 @@ class ReservationController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function newReservation(Request $request)
     {
         $data = $request->all();

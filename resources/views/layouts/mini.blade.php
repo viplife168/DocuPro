@@ -10,15 +10,15 @@
     <meta content="angah" name="author" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('mini/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('/mini/images/favicon.ico') }}">
 
     <!-- Bootstrap Css -->
-    <link href="{{ asset('mini/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/mini/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="{{ asset('mini/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/mini/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="{{ asset('mini/css/app-dark.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('mini/css/chosen/chosen.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/mini/css/app-dark.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/mini/css/chosen/chosen.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
     @yield('topscripts')
 
@@ -92,17 +92,17 @@
     <!-- END layout-wrapper -->
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('mini/libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('mini/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('mini/libs/metismenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('mini/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('mini/libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('mini/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('mini/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('mini/js/chosen/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('/mini/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('/mini/js/chosen/chosen.jquery.min.js') }}"></script>
 
-    <script src="{{ asset('mini/js/bootstrap-filestyle.js') }}"></script>
-    <script src="{{ asset('mini/js/app.js') }}"></script>
+    <script src="{{ asset('/mini/js/bootstrap-filestyle.js') }}"></script>
+    <script src="{{ asset('/mini/js/app.js') }}"></script>
     @yield('bottomscripts')
 </body>
 

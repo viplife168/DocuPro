@@ -158,9 +158,8 @@ Route::middleware('auth')->group(function () {
         return view('staff.dashboard');
     })->name('staff-dashboard');
 
-    Route::get('/staff/permohonan', function () {
-        return view('staff.permohonan');
-    })->name('staff-permohonan');
+    Route::get('/staff/permohonan','StaffController@viewPermohonanBaru')->name('staff-permohonan');
+    Route::get('/staff/permohonan-baru/{id}','StaffController@getPermohonanBaru')->name('staff-permohonan-detail');
 
 
     Route::get('/staff/pemulangan', function () {
@@ -175,7 +174,13 @@ Route::middleware('auth')->group(function () {
         return view('staff.storan');
     })->name('staff-storan');
 
+    Route::get('/staff/storan-detail', function () {
+        return view('staff.storan-detail');
+    })->name('staff-storan-detail-get');
+
+    Route::post('/staff/storan', 'StaffController@addStorageItem')->name('staff-storan');
     Route::post('/staff/storan-detail', 'StaffController@addFileToStorage')->name('staff-storan-detail');
+    Route::post('/staff/submit-tambah-storan', 'StorageController@submitTambahStoran')->name('staff-tambah-storan');
 
     Route::get('/staff/agihan-tugas', function () {
         return view('staff.agihan-tugas');
