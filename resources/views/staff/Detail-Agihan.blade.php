@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<form method="POST" action="{{url('staff/carian')}}">
+<form method="POST" action="">
     @csrf
 
     <div class="form-group row">
@@ -40,7 +40,7 @@
                             <thead>
                                 <tr class="table-info">
                                     <th>#</th>
-                                    <th>Nama Fail</th>
+                                    <th>Nombor Fail</th>
                                     <th>Pilih Staff</th>
                                 </tr>
                             </thead>
@@ -51,7 +51,7 @@
                                     <th scope="row">{{$key+1}}</th>
                                     <td>{{$bFail->name}}</td>
                                     <td>{{$bFail->Pilih_Staff}}</td>
-                                                                        <td><button type="submit" class="btn btn-success"  name="btnSubmit" id="btnSubmit" value="Tambah-{{$bFail->file_number}}"><i class="uil-plus"></i></button></td>
+                                    <td><button type="submit" class="btn btn-success"  name="btnSubmit" id="btnSubmit" value="Tambah-{{$bFail->file_number}}"><i class="uil-plus"></i></button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -59,9 +59,19 @@
                             <tbody>
 
                                 <tr>
-                                    <th colspan="3">
+                                    <th colspan="table-responsive">
                                         <p>Tiada Permohonan Baru</p>
                                     <th>
+                                    <div class="col-md-8">
+                                        <select class="custom-select select2" >
+                                        <option selected>Sila Pilih Nama Staf</option>
+                                        <option value="1">Datin</option>
+                                        <option value="2">CT AMI</option>
+                                        <option value="3">Abang Long</option>
+                                        <option value="3">Amerul</option>
+                                        <option value="3">Siti Suria</option>
+                                        </select>
+                                    </div>
                                 </tr>
                             </tbody>
                             @endif
