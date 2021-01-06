@@ -59,8 +59,8 @@
     <input type="submit" id="btn-simpan" name="btn-simpan" class="btn btn-block btn-primary" value="Simpan" />
 </form>
 <div class="form-group row">
-    <label class="col-md-2 col-form-label">Bilangan Fail Terkini di Seksyen</label>
-    <div class="col-md-10">
+    <label class="col-md-2 col-form-label mt-3">Bilangan Fail Terkini di Seksyen</label>
+    <div class="col-md-10 mt-4">
         <strong>
             {{$fails['count']}}
         </strong>

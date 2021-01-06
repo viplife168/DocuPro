@@ -100,7 +100,7 @@ use Carbon\Carbon;
                     @if (!empty($sender))
                     <option selected="selected" value="{{$sender}}">{{App\Http\Controllers\ProfileController::name($sender)}}</option>
                     @else
-                    <option value=""></option>
+                    <option value="">Tiada Staff</option>
                     @endif
                     @foreach ($staff as $key=>$sender)
                     <option value={{$key}}>{{$sender}}</option>

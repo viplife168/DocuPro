@@ -117,11 +117,18 @@ class TransferController extends Controller
         $user = User::find(auth()->user()->id);
         $department = $user->profile->department;
         $users = Profile::getUserFromDepartment($department);
-        foreach ($users as $user)
+        if(count($users) =="")
         {
-            $staff = User::find($user->profile_id);
-            $data['staff'][$user->profile_id] = $staff->name;
+            foreach ($users as $user)
+            {
+                $staff = User::find($user->profile_id);
+                $data['staff'][$user->profile_id] = $staff->name;
+            }
+
         }
+else{
+
+}
         // dd($data);
         return view('reservation.transfer-internal-from',$data);
     }
@@ -173,10 +180,11 @@ class TransferController extends Controller
         $user = User::find(auth()->user()->id);
         $department = $user->profile->department;
         $users = Profile::getUserFromDepartment($department);
-        foreach ($users as $user)
-        {
-            $staff = User::find($user->profile_id);
-            $data['staff'][$user->profile_id] = $staff->name;
+        if (count($users) =="") {
+            foreach ($users as $user) {
+                $staff = User::find($user->profile_id);
+                $data['staff'][$user->profile_id] = $staff->name;
+            }
         }
         // dd($data);
         return view('reservation.transfer-internal-to',$data);

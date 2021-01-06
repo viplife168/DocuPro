@@ -93,7 +93,7 @@ class StaffController extends Controller
         if ($request->btn_tambah == "")
         {
             // $data['filecount']=0;
-            $data['files'] =  Store::getBilanganFail($request->bilik_fail,$request->rak,$request->tingkat,$request->seksyen);
+            $data['fails'] =  Store::getBilanganFail($request->bilik_fail,$request->rak,$request->tingkat,$request->seksyen);
             // $data['filecount'] = $data['files']['count'];
             // dd($data);
             return view('staff.storan-detail',$data);

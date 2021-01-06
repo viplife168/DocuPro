@@ -42,7 +42,9 @@ class StorageController extends Controller
     }
     public static function implodeLocation($bilik,$rak,$tingkat,$seksyen)
     {
-        $location = $bilik . '-' . $rak . '-' . $tingkat . '-' . $seksyen;
+        $dept= array_map('strtolower',SysSettingController::showSetting('departments'));
+        $acr = array_search(strtolower($bilik),$dept);
+        $location = $acr . '-' . $rak . '-' . $tingkat . '-' . $seksyen;
         return $location;
     }
     public function explodeLocation($location)
@@ -59,7 +61,14 @@ class StorageController extends Controller
     }
     public function submitTambahStoran(Request $request)
     {
-        dd($request);
+        $data = $request->all();
+        $data['lokasi'] = StorageController::implodeLocation($request->bilik_fail,$request->rak,$request->tingkat,$request->seksyen);
+        $file_list =$data['file_list'];
+        array_filter($file_list, function($value){
+            return empty($value) || $value === 0 || $value === null;
+        });
+        dd($file_list);
     }
+
 
 }
