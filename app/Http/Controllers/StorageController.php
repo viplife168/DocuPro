@@ -7,21 +7,40 @@ use Illuminate\Http\Request;
 
 class StorageController extends Controller
 {
-    public function getBilikFail()
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public static function getBilikFail()
     {
         $bilik_fail = SysSettingController::showSetting('bilik_fail');
         return $bilik_fail;
     }
-    public function getBilanganFail($bilik='',$rak='',$tingkat='',$seksyen='')
+    public static function getRak()
     {
-        $location = $this->implodeLocation($bilik,$rak,$tingkat,$seksyen);
+        $rak = SysSettingController::showSetting('rak');
+        return $rak;
+    }
+    public static function getTingkat()
+    {
+        $tingkat = SysSettingController::showSetting('tingkat');
+        return $tingkat;
+    }
+    public static function getSeksyen()
+    {
+        $seksyen = SysSettingController::showSetting('seksyen');
+        return $seksyen;
+    }
+    public static function getBilanganFail($bilik='',$rak='',$tingkat='',$seksyen='')
+    {
+        $location = StorageController::implodeLocation($bilik,$rak,$tingkat,$seksyen);
         $data['files'] = Spp::where('storage',$location)
                     ->where('status', 'Stored')
                     ->get();
         $data['count'] = count($data['files']);
         return $data;
     }
-    public function implodeLocation($bilik,$rak,$tingkat,$seksyen)
+    public static function implodeLocation($bilik,$rak,$tingkat,$seksyen)
     {
         $location = $bilik . '-' . $rak . '-' . $tingkat . '-' . $seksyen;
         return $location;
@@ -35,8 +54,12 @@ class StorageController extends Controller
     {
         foreach ($file_numbers as $file)
         {
-            
+
         }
+    }
+    public function submitTambahStoran(Request $request)
+    {
+        dd($request);
     }
 
 }

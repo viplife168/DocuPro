@@ -178,7 +178,9 @@ Route::middleware('auth')->group(function () {
         return view('staff.storan-detail');
     })->name('staff-storan-detail-get');
 
+    Route::post('/staff/storan', 'StaffController@addStorageItem')->name('staff-storan');
     Route::post('/staff/storan-detail', 'StaffController@addFileToStorage')->name('staff-storan-detail');
+    Route::post('/staff/submit-tambah-storan', 'StorageController@submitTambahStoran')->name('staff-tambah-storan');
 
     Route::get('/staff/agihan-tugas', function () {
         return view('staff.agihan-tugas');

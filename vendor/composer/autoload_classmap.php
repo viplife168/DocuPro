@@ -24,6 +24,7 @@ return array(
     'App\\Http\\Controllers\\ReservationController' => $baseDir . '/app/Http/Controllers/ReservationController.php',
     'App\\Http\\Controllers\\SppController' => $baseDir . '/app/Http/Controllers/SppController.php',
     'App\\Http\\Controllers\\StaffController' => $baseDir . '/app/Http/Controllers/StaffController.php',
+    'App\\Http\\Controllers\\StorageController' => $baseDir . '/app/Http/Controllers/StorageController.php',
     'App\\Http\\Controllers\\SysSettingController' => $baseDir . '/app/Http/Controllers/SysSettingController.php',
     'App\\Http\\Controllers\\TransferController' => $baseDir . '/app/Http/Controllers/TransferController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',

@@ -17,9 +17,10 @@
 
     <style>
         header {
-            top:0px;
+            top: 0px;
             position: fixed;
         }
+
         body {
             width: 100%;
             height: 100%;
@@ -56,13 +57,19 @@
 
         @media print {
 
+            .no-print,
+            .no-print * {
+                display: none !important;
+            }
+
             html,
             body {
                 width: 210mm;
                 height: 297mm;
             }
-            header{
-                top:0px;
+
+            header {
+                top: 0px;
                 position: fixed;
             }
 
@@ -101,9 +108,12 @@ $x=0;
 
 <body>
     <div class="container">
-        <div class="cetak row">
+        <div class="cetak row no-print pt-3">
             <div class="col">
-                
+                <form action="/staff/carian" method="GET">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Kembali</button>
+                </form>
             </div>
         </div>
         <div class="book">
@@ -152,8 +162,7 @@ $x=0;
                         $q=25;
                         @endphp
                         @while ($q >0)
-                        @if ($x<$m)
-                            <tr>
+                        @if ($x<$m) <tr>
                             <td>{{$x+1}}</td>
                             <td>{{$file_details[$x]->file_number}}</td>
                             <td>{{$file_details[$x]->name}}</td>
@@ -161,7 +170,7 @@ $x=0;
                             <td>{{$file_details[$x]->location}}</td>
                             </tr>
 
-                        @else
+                            @else
                             <tr>
                                 <td>{{$x+1}}</td>
                                 <td></td>
@@ -170,14 +179,14 @@ $x=0;
                                 <td></td>
                             </tr>
 
-                        @endif
-                        @php
-                        $q--;
-                        $p--;
-                        // $m--;
-                        $x++;
-                        @endphp
-                        @endwhile
+                            @endif
+                            @php
+                            $q--;
+                            $p--;
+                            // $m--;
+                            $x++;
+                            @endphp
+                            @endwhile
                     </tbody>
                 </table>
             </div>
@@ -195,4 +204,5 @@ $x=0;
 
 <script>
     window.print();
+
 </script>

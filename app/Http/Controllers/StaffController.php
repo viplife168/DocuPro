@@ -13,6 +13,9 @@ use App\Profile;
 use App\Spp as AppSpp;
 use Illuminate\Support\Facades\Gate;
 use App\User;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\SysSettingController as Sys;
+use App\Http\Controllers\StorageController as Store;
 
 class StaffController extends Controller
 {
@@ -78,11 +81,46 @@ class StaffController extends Controller
             // dd($data);
             return view('print.carian',$data);
         }
-
     }
     public function addFileToStorage(Request $request)
     {
-        return view('staff.storan-detail',$request);
+        $data = $request->all();
+        return view('staff.storan-detail',$data);
+    }
+    public function addStorageItem(Request $request)
+    {
+        $data=$request->all();
+        if ($request->btn_tambah == "")
+        {
+            // $data['filecount']=0;
+            $data['files'] =  Store::getBilanganFail($request->bilik_fail,$request->rak,$request->tingkat,$request->seksyen);
+            // $data['filecount'] = $data['files']['count'];
+            // dd($data);
+            return view('staff.storan-detail',$data);
+        }
+        else{
+            $tambah = $request->btn_tambah;
+            switch($tambah){
+                case 'bilik-fail':
+                    Sys::addSetting('bilik_fail',$request->bilik_fail_baru);
+                    $data['bilik_fail'] = $request->bilik_fail_baru;
+                    break;
+                case 'rak':
+                    Sys::addSetting('rak',$request->rak_baru);
+                    $data['rak'] = $request->rak_baru;
+                    break;
+                case 'tingkat':
+                    Sys::addSetting('tingkat',$request->tingkat_baru);
+                    $data['tingkat'] = $request->tingkat_baru;
+                    break;
+                case 'seksyen':
+                    Sys::addSetting('seksyen',$request->seksyen_baru);
+                    $data['seksyen'] = $request->seksyen_baru;
+                    break;
+                default:
+            }
+            return view('staff.storan',$data);
+        }
     }
     public function viewPermohonanBaru()
     {
