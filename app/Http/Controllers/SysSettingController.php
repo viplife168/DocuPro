@@ -13,10 +13,27 @@ class SysSettingController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public static function showDepartments()
+        {
+            $setting_key = 'departments';
+            $dept = SysSetting::where('setting_key',$setting_key)->get();
+            $data = $dept->pluck('setting_value')->toArray();
+            $dep= unserialize($data[0]);
+            return $dep;
+        }
     public static function showSetting($setting_key)
     {
-        $settings = SysSetting::where('setting_key',$setting_key)->pluck('setting_value');
-        $data = unserialize($settings[0]);
+        if ($setting_key == 'departments')
+        {
+            $data = self::showDepartments();
+        }
+        else
+        {
+            $settings = SysSetting::where('setting_key',$setting_key)->pluck('setting_value');
+            $data = unserialize($settings[0]);
+
+        }
         if (count($data)>1)
         {
             return $data;
