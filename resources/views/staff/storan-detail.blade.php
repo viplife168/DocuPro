@@ -59,13 +59,8 @@
     <input type="submit" id="btn-simpan" name="btn-simpan" class="btn btn-block btn-primary" value="Simpan" />
 </form>
 <div class="form-group row">
-    <label class="col-md-2 col-form-label mt-3">Bilangan Fail Terkini di Seksyen</label>
-    <div class="col-md-10 mt-4">
-        <strong>
-            {{$fails['count']}}
-        </strong>
-    </div>
-</div>
+    <label class="col-md-6 col-form-label mt-3" style="width: 100%">Bilangan Fail Terkini di <strong>{{$fails['location']}} : [-<span style="color: red"> {{$fails['count']}} </span>-]</strong></label>
+  </div>
 <div class="table-responsive">
     <table class="table mb-0">
         <thead>

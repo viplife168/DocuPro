@@ -88,13 +88,13 @@ $seksyens = StorageController::getSeksyen();
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-md-2 col-form-label">Seksyen</label>
+        <label class="col-md-2 col-form-label">Baris</label>
         <div class="col-md-10">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <select class="custom-select select2" name="seksyen" id="seksyen">
-                            <option value="{{$seksyen ?? ''}}" selected>{{$seksyen ?? 'SILA PILIH SEKSYEN'}}</option>
+                            <option value="{{$seksyen ?? ''}}" selected>{{$seksyen ?? 'SILA PILIH BARIS'}}</option>
                             @if ($seksyens!="")
                             @foreach ($seksyens as $seksyen)
                             <option>{{strtoupper($seksyen)}}</option>
@@ -105,7 +105,7 @@ $seksyens = StorageController::getSeksyen();
                     </div>
                 </div>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#TambahSeksyen">
-                    Tambah Seksyen Baru
+                    Tambah Baris Baru
                 </button>
             </div>
         </div>
@@ -186,7 +186,7 @@ aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="TambahSeksyenLabel">Tambah Seksyen</h5>
+            <h5 class="modal-title" id="TambahSeksyenLabel">Tambah Baris</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -197,7 +197,7 @@ aria-hidden="true">
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             <button type="submit" id="btn_tambah" name="btn_tambah" value="seksyen"
-                class="btn btn-primary">Tambah Seksyen</button>
+                class="btn btn-primary">Tambah Baris</button>
         </div>
     </div>
 </div>

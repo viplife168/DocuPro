@@ -14,9 +14,9 @@ class MenusTableSeeder extends Seeder
     {
         
 
-        \DB::table('menus')->delete();
+        \DB::table('Menus')->delete();
         
-        \DB::table('menus')->insert(array (
+        \DB::table('Menus')->insert(array (
             0 => 
             array (
                 'id' => 1,
@@ -31,6 +31,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 09:18:05',
                 'updated_at' => '2020-10-10 09:18:05',
+                'disabled' => 0,
             ),
             1 => 
             array (
@@ -46,6 +47,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 09:44:30',
                 'updated_at' => '2020-10-10 09:44:30',
+                'disabled' => 0,
             ),
             2 => 
             array (
@@ -61,6 +63,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 09:49:06',
                 'updated_at' => '2020-10-10 09:49:06',
+                'disabled' => 0,
             ),
             3 => 
             array (
@@ -76,6 +79,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 10:18:12',
                 'updated_at' => '2020-10-10 10:18:12',
+                'disabled' => 0,
             ),
             4 => 
             array (
@@ -91,6 +95,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 10:21:08',
                 'updated_at' => '2020-10-10 10:21:08',
+                'disabled' => 0,
             ),
             5 => 
             array (
@@ -106,6 +111,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 11:29:13',
                 'updated_at' => '2020-10-10 11:29:13',
+                'disabled' => 0,
             ),
             6 => 
             array (
@@ -121,6 +127,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 11:32:37',
                 'updated_at' => '2020-10-10 11:32:37',
+                'disabled' => 0,
             ),
             7 => 
             array (
@@ -136,6 +143,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'user',
                 'created_at' => '2020-10-10 11:43:48',
                 'updated_at' => '2020-10-10 11:43:48',
+                'disabled' => 0,
             ),
             8 => 
             array (
@@ -151,6 +159,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-10 11:45:20',
                 'updated_at' => '2020-10-10 11:45:20',
+                'disabled' => 0,
             ),
             9 => 
             array (
@@ -166,6 +175,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-10 11:46:37',
                 'updated_at' => '2020-10-10 11:46:37',
+                'disabled' => 0,
             ),
             10 => 
             array (
@@ -181,6 +191,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-10 11:47:48',
                 'updated_at' => '2020-10-10 11:47:48',
+                'disabled' => 0,
             ),
             11 => 
             array (
@@ -196,6 +207,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-14 07:01:03',
                 'updated_at' => '2020-10-14 07:01:03',
+                'disabled' => 0,
             ),
             12 => 
             array (
@@ -211,6 +223,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-14 07:03:20',
                 'updated_at' => '2020-10-14 07:03:20',
+                'disabled' => 0,
             ),
             13 => 
             array (
@@ -226,6 +239,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-14 07:06:46',
                 'updated_at' => '2020-10-14 07:06:46',
+                'disabled' => 0,
             ),
             14 => 
             array (
@@ -241,6 +255,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'All',
                 'created_at' => '2020-10-14 07:08:04',
                 'updated_at' => '2020-10-14 07:08:04',
+                'disabled' => 0,
             ),
             15 => 
             array (
@@ -256,6 +271,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'supervisor',
                 'created_at' => '2020-10-14 07:10:22',
                 'updated_at' => '2020-10-14 07:10:22',
+                'disabled' => 0,
             ),
             16 => 
             array (
@@ -271,6 +287,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'staff',
                 'created_at' => '2020-11-03 05:20:37',
                 'updated_at' => '2020-11-03 05:20:37',
+                'disabled' => 0,
             ),
             17 => 
             array (
@@ -286,6 +303,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'staff',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'disabled' => 0,
             ),
             18 => 
             array (
@@ -301,6 +319,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'staff',
                 'created_at' => '2020-11-04 08:13:21',
                 'updated_at' => '2020-11-04 08:13:21',
+                'disabled' => 0,
             ),
             19 => 
             array (
@@ -316,6 +335,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'staff',
                 'created_at' => '2020-11-04 08:20:02',
                 'updated_at' => '2020-11-04 08:20:02',
+                'disabled' => 0,
             ),
             20 => 
             array (
@@ -331,6 +351,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'staff',
                 'created_at' => '2020-11-04 08:31:58',
                 'updated_at' => '2020-11-04 08:31:58',
+                'disabled' => 0,
             ),
             21 => 
             array (
@@ -346,6 +367,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'staff',
                 'created_at' => '2020-11-04 08:34:31',
                 'updated_at' => '2020-11-04 08:34:31',
+                'disabled' => 0,
             ),
             22 => 
             array (
@@ -361,6 +383,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'Supervisor',
                 'created_at' => NULL,
                 'updated_at' => NULL,
+                'disabled' => 0,
             ),
             23 => 
             array (
@@ -376,6 +399,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'Supervisor',
                 'created_at' => '2020-12-10 09:58:16',
                 'updated_at' => '2020-12-10 09:58:16',
+                'disabled' => 0,
             ),
             24 => 
             array (
@@ -391,6 +415,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'Supervisor',
                 'created_at' => '2020-12-10 10:02:37',
                 'updated_at' => '2020-12-10 10:02:37',
+                'disabled' => 0,
             ),
             25 => 
             array (
@@ -406,6 +431,7 @@ class MenusTableSeeder extends Seeder
                 'access' => 'Supervisor',
                 'created_at' => '2020-12-11 05:00:42',
                 'updated_at' => '2020-12-11 05:00:42',
+                'disabled' => 0,
             ),
         ));
         
