@@ -24,9 +24,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user_id = auth()->user()->id;
-        if (count(Profile::where('profile_id', $user_id)->get()) != 0) {
-            return view('home');
+        $user = auth()->user();
+        if (count(Profile::where('profile_id', $user->id)->get()) != 0) {
+            if($user->role == 'user')
+            {
+                return view('home');
+            }
+            else return view('staff.dashboard');
+
         }
         else return redirect()->action('ProfileController@viewAddProfile');
     }

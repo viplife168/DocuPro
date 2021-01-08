@@ -48,7 +48,21 @@ class ProfileController extends Controller
     }
     public function viewProfile()
     {
-        return view('profiles.show');
+        $user = auth()->user();
+        if (count(Profile::where('profile_id', $user->id)->get()) != 0)
+        {
+            $data = [
+                'departments' => Sys::showSetting('departments'),
+                'name' => $user->name,
+                'email'=> $user->email,
+                'department' => $user->profile->department,
+                'phone_ext' => $user->profile->phone_ext,
+                'designation' => $user->profile->designation,
+                'gred' => $user->profile->gred,
+            ];
+            return view('profiles.show',$data);
+        }
+        else return redirect()->action('ProfileController@viewAddProfile');
     }
     public function viewAddProfile()
     {
@@ -75,16 +89,20 @@ class ProfileController extends Controller
     public function viewEditProfile()
     {
         $user = auth()->user();
-        $data = [
-            'departments' => Sys::showSetting('departments'),
-            'name' => $user->name,
-            'email'=> $user->email,
-            'department' => $user->profile->department,
-            'phone_ext' => $user->profile->phone_ext,
-            'designation' => $user->profile->designation,
-            'gred' => $user->profile->gred,
-        ];
-        return view('profiles.edit',$data);
+        if (count(Profile::where('profile_id', $user->id)->get()) != 0)
+        {
+            $data = [
+                'departments' => Sys::showSetting('departments'),
+                'name' => $user->name,
+                'email'=> $user->email,
+                'department' => $user->profile->department,
+                'phone_ext' => $user->profile->phone_ext,
+                'designation' => $user->profile->designation,
+                'gred' => $user->profile->gred,
+            ];
+            return view('profiles.edit',$data);
+        }
+        else return redirect()->action('ProfileController@viewAddProfile');
     }
     public function submitEditProfile(Request $request)
     {
