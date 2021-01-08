@@ -19,7 +19,12 @@
     <!-- App Css-->
     <link href="{{ asset('/mini/css/app-dark.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/mini/css/chosen/chosen.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-
+    <style>
+        .disabled {
+            pointer-events: none; //This makes it not clickable
+            opacity: 0.6; //This grays it out to look disabled
+        }
+    </style>
     @yield('topscripts')
 
 </head>
@@ -59,18 +64,18 @@
 
                         @if (session('status') != NULL)
 
-                            <div class="card-header">
-                                @php
-                                $status = session('status')
-                                @endphp
-
-                                <div class="alert alert-{{$status['type']}}" role="alert">
-                                    {{$status['message']}}
-                                </div>
-                            </div>
+                        <div class="card-header">
                             @php
-                                Session::forget('status');
+                            $status = session('status')
                             @endphp
+
+                            <div class="alert alert-{{$status['type']}}" role="alert">
+                                {{$status['message']}}
+                            </div>
+                        </div>
+                        @php
+                        Session::forget('status');
+                        @endphp
 
                         @endif
 

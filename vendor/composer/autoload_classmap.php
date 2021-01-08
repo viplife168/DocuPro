@@ -2226,7 +2226,7 @@ return array(
     'League\\MimeTypeDetection\\FinfoMimeTypeDetector' => $vendorDir . '/league/mime-type-detection/src/FinfoMimeTypeDetector.php',
     'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => $vendorDir . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
     'League\\MimeTypeDetection\\MimeTypeDetector' => $vendorDir . '/league/mime-type-detection/src/MimeTypeDetector.php',
-    'MenusTableSeeder' => $baseDir . '/database/seeds/MenusTableSeeder.php',
+    'MenusTableSeeder' => $baseDir . '/database/seeds/MenusTableSeeder copy.php',
     'Milon\\Barcode\\BarcodeServiceProvider' => $vendorDir . '/milon/barcode/src/Milon/Barcode/BarcodeServiceProvider.php',
     'Milon\\Barcode\\DNS1D' => $vendorDir . '/milon/barcode/src/Milon/Barcode/DNS1D.php',
     'Milon\\Barcode\\DNS2D' => $vendorDir . '/milon/barcode/src/Milon/Barcode/DNS2D.php',

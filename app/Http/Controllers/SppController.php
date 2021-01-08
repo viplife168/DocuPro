@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Spp;
 
 class SppController extends Controller
 {
@@ -27,28 +28,54 @@ class SppController extends Controller
     public static function findSppByICorFileNumber($input)
     {
         $ora = DB::connection('oracle')
-            ->select( DB::raw( self::oraSPPi() . " AND (CSF_FILE_REF_NO ='$input' OR PTPKM_ICNO = '$input')"));
+            ->select(DB::raw(self::oraSPPi() . " AND (CSF_FILE_REF_NO ='$input' OR PTPKM_ICNO = '$input')"));
         return $ora;
     }
 
-    public static function getSppTable()
+    public static function getCountSppiFiles()
     {
         $ora = DB::connection('oracle')
-            ->select( DB::raw( self::oraSPPi()));
+            ->select(DB::raw(self::oraSPPi()));
         return count($ora);
     }
+    public static function getCountDocuProFiles()
+    {
+        $docu = Spp::all();
+        return count($docu);
+    }
+    public static function getCountBorrowedFiles()
+    {
+        $docu = Spp::where('status', 'Borrowed')->get();
+        return count($docu);
+    }
+    public static function getCountStoredFiles()
+    {
+        $docu['bilik'] = SysSettingController::showsetting('bilik_fail');
+        $docu['files']['count'] = count(Spp::where('status', 'Stored')->get());
+        foreach ($docu['bilik'] as $bilik_fail) {
+            $acro = SysSettingController::getAcro($bilik_fail);
+            $docu['files'][$acro] = count(Spp::where('storage', 'LIKE', '%' . $acro . '%')->get());
+        }
+        return $docu;
+    }
+    public static function getCountUnlocatedFiles()
+    {
+        $docu = Spp::where('status', 'Unlocated')->get();
+        return count($docu);
+    }
+
 
     public static function findFileSppByIC($ic_number)
     {
         $files_in_spp = DB::connection('oracle')
-        ->select( DB::raw( self::oraSPPi() . " AND (PTPKM_ICNO = '$ic_number')"));
+            ->select(DB::raw(self::oraSPPi() . " AND (PTPKM_ICNO = '$ic_number')"));
         return $files_in_spp;
     }
 
     public static function findFileSppByNoFail($file_number)
     {
         $files_in_spp = DB::connection('oracle')
-        ->select( DB::raw( self::oraSPPi() . " AND (CSF_FILE_REF_NO ='$file_number')"));
+            ->select(DB::raw(self::oraSPPi() . " AND (CSF_FILE_REF_NO ='$file_number')"));
         return $files_in_spp;
     }
     public static function findBorrowerRequest(Request $request)
@@ -64,7 +91,7 @@ class SppController extends Controller
 
         if (count($borrowers) == 0) {
             $borrowersSpp = self::findSppByICorFileNumber($input);
-                    // dd($borrowers);
+            // dd($borrowers);
             self::compareAddSppFiles($borrowersSpp);
             $borrowers = self::findDocuProByICorFileNumber($input);
         }
@@ -101,7 +128,6 @@ class SppController extends Controller
             ->where('file_number', '=', $input)
             ->orWhere('ic_number', '=', $input)
             ->get();
-            // dd($borrowers);
         return $borrowers;
     }
 

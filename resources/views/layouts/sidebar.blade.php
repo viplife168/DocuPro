@@ -51,8 +51,9 @@ $dashboard = Menu::getDashboard();
                     $menuitems =Menu::getMenuItem($title->slug);
                     //
                 @endphp
+                {{-- {{dd($menuitems)}} --}}
                 @foreach ($menuitems as $menuitem)
-                    <li>
+                    <li class="{{Menu::disabledMenu($menuitem->disabled)}}">
                         <a href="{{$menuitem->link}}" class="{{$menuitem->bootclass}}">
                             <i class="{{$menuitem->icon}}"></i>
                             <span>{{$menuitem->name}}</span>

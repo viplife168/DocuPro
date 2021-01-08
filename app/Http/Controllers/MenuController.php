@@ -125,4 +125,9 @@ class MenuController extends Controller
         $menus = $menus[0];
         return $menus;
     }
+    public static function disabledMenu($disabled)
+    {
+        if ($disabled == 1) return 'disabled';
+        else return "";
+    }
 }
