@@ -18,7 +18,8 @@
         "laravel/ui": "2.x",
         "laravelcollective/html": "^6.2",
         "milon/barcode": "7.x",
-        "orangehill/iseed": "^2.6"
+        "orangehill/iseed": "^2.6",
+        "yajra/laravel-oci8": "7"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

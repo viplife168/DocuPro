@@ -7,9 +7,51 @@ use Illuminate\Support\Facades\DB;
 
 class SppController extends Controller
 {
+    protected $oraSppi = '
+    SELECT
+        COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO,
+        COLLEGE_STUDENT_FUNDS.CSF_STATUS,
+        PTPK_MASTER.PTPKM_FULL_NAME,
+        PTPK_MASTER.PTPKM_ICNO
+    FROM
+        COLLEGE_STUDENT_FUNDS
+    INNER JOIN
+        PTPK_MASTER
+    ON
+        COLLEGE_STUDENT_FUNDS.CSF_ICNO=PTPK_MASTER.PTPKM_ICNO
+    AND
+        COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO IS NOT NULL';
+
     public function __construct()
     {
         $this->middleware('auth');
+    }
+    public static function getOraTable()
+    {
+        $ora = DB::connection('oracle')
+            ->select( DB::raw('
+                SELECT
+                    COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO,
+                    COLLEGE_STUDENT_FUNDS.CSF_STATUS,
+                    PTPK_MASTER.PTPKM_FULL_NAME,
+                    PTPK_MASTER.PTPKM_ICNO
+                FROM
+                    COLLEGE_STUDENT_FUNDS
+                INNER JOIN
+                    PTPK_MASTER
+                ON
+                    COLLEGE_STUDENT_FUNDS.CSF_ICNO=PTPK_MASTER.PTPKM_ICNO
+                AND
+                    COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO IS NOT NULL
+                WHERE ROWNUM <=10'
+    ));
+
+        // $ora = DB::connection('oracle')->table('COLLEGE_STUDENT_FUNDS AS a')
+        //     ->select('a.CSF_FILE_REF_NO, a.CSF_STATUS, b.PTPKM_FULL_NAME, b.PTPKM_ICNO')
+        //     ->join('PTPK_MASTER AS b','a.CSF_ICNO','=','b.PTPKM_ICNO')
+        //     ->first(array('CSF_FILE_REF_NO','CSF_STATUS','PTPKM_FULL_NAME','PTPKM_ICNO'));
+            return $ora;
+
     }
     public static function getSppTable()
     {
