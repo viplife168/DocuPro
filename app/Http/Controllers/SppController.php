@@ -7,110 +7,48 @@ use Illuminate\Support\Facades\DB;
 
 class SppController extends Controller
 {
-    protected $oraSppi = '
-    SELECT
-        COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO,
-        COLLEGE_STUDENT_FUNDS.CSF_STATUS,
-        PTPK_MASTER.PTPKM_FULL_NAME,
-        PTPK_MASTER.PTPKM_ICNO
-    FROM
-        COLLEGE_STUDENT_FUNDS
-    INNER JOIN
-        PTPK_MASTER
-    ON
-        COLLEGE_STUDENT_FUNDS.CSF_ICNO=PTPK_MASTER.PTPKM_ICNO
-    AND
-        COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO IS NOT NULL';
-
-    public function __construct()
+    public function __construct(string $oraSppi)
     {
         $this->middleware('auth');
+        $this->oraSppi = $oraSppi;
     }
-    public static function getOraTable()
+    public static function oraSPPi()
     {
-        $ora = DB::connection('oracle')
-            ->select( DB::raw('
-                SELECT
-                    COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO,
-                    COLLEGE_STUDENT_FUNDS.CSF_STATUS,
-                    PTPK_MASTER.PTPKM_FULL_NAME,
-                    PTPK_MASTER.PTPKM_ICNO
-                FROM
-                    COLLEGE_STUDENT_FUNDS
-                INNER JOIN
-                    PTPK_MASTER
-                ON
-                    COLLEGE_STUDENT_FUNDS.CSF_ICNO=PTPK_MASTER.PTPKM_ICNO
-                AND
-                    COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO IS NOT NULL
-                WHERE ROWNUM <=10'
-    ));
-
-        // $ora = DB::connection('oracle')->table('COLLEGE_STUDENT_FUNDS AS a')
-        //     ->select('a.CSF_FILE_REF_NO, a.CSF_STATUS, b.PTPKM_FULL_NAME, b.PTPKM_ICNO')
-        //     ->join('PTPK_MASTER AS b','a.CSF_ICNO','=','b.PTPKM_ICNO')
-        //     ->first(array('CSF_FILE_REF_NO','CSF_STATUS','PTPKM_FULL_NAME','PTPKM_ICNO'));
-            return $ora;
-
-    }
-    public static function getSppTable()
-    {
-        $spp = DB::connection('spp_srv')->table('export_tpk_maklumat_permohonan')
-            ->select('export_tpk_maklumat_permohonan.no_fail', 'export_tpk_maklumat_permohonan.nama', 'export_tpk_maklumat_permohonan.no_kp')
-            ->join('export_tpk_tapisan_dtl', 'export_tpk_tapisan_dtl.id_pemohon', '=', 'export_tpk_maklumat_permohonan.id_pemohon')
-            ->where([
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'BP'],
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'G'],
-                ['export_tpk_maklumat_permohonan.STATUS_FAIL', '=', 'B'],
-                ['export_tpk_tapisan_dtl.STATUS', '=', 'A']
-            ])
-            ->get();
-        return count($spp);
+        return '
+        SELECT *
+        FROM(
+        SELECT COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO, COLLEGE_STUDENT_FUNDS.CSF_STATUS, COLLEGE_STUDENT_FUNDS.CSF_DATE AS DATE_STATUS, PTPK_MASTER.PTPKM_FULL_NAME, PTPK_MASTER.PTPKM_ICNO,
+        row_number() OVER (PARTITION BY COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO ORDER BY COLLEGE_STUDENT_FUNDS.CSF_DATE DESC) AS SECNUM
+        FROM COLLEGE_STUDENT_FUNDS
+        INNER JOIN PTPK_MASTER ON COLLEGE_STUDENT_FUNDS.CSF_ICNO=PTPK_MASTER.PTPKM_ICNO AND COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO IS NOT NULL
+        )
+        WHERE SECNUM = 1';
     }
     public static function findSppByICorFileNumber($input)
     {
-        $borrowers = DB::connection('spp_srv')->table('export_tpk_maklumat_permohonan')
-            ->select('export_tpk_maklumat_permohonan.no_fail', 'export_tpk_maklumat_permohonan.nama', 'export_tpk_maklumat_permohonan.no_kp')
-            ->join('export_tpk_tapisan_dtl', 'export_tpk_tapisan_dtl.id_pemohon', '=', 'export_tpk_maklumat_permohonan.id_pemohon')
-            ->where([
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'BP'],
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'G'],
-                ['export_tpk_maklumat_permohonan.STATUS_FAIL', '=', 'B'],
-                ['export_tpk_tapisan_dtl.STATUS', '=', 'A']
-            ])
-            ->where('export_tpk_maklumat_permohonan.no_kp', '=', $input)->orWhere('export_tpk_maklumat_permohonan.no_fail', '=', $input)
-            ->get();
-        return $borrowers;
+        $ora = DB::connection('oracle')
+            ->select( DB::raw( self::oraSPPi() . " AND (CSF_FILE_REF_NO ='$input' OR PTPKM_ICNO = '$input')"));
+        return $ora;
     }
+
+    public static function getSppTable()
+    {
+        $ora = DB::connection('oracle')
+            ->select( DB::raw( self::oraSPPi()));
+        return count($ora);
+    }
+
     public static function findFileSppByIC($ic_number)
     {
-        $files_in_spp = DB::connection('spp_srv')->table('export_tpk_maklumat_permohonan')
-            ->select('export_tpk_maklumat_permohonan.no_fail', 'export_tpk_maklumat_permohonan.nama', 'export_tpk_maklumat_permohonan.no_kp')
-            ->join('export_tpk_tapisan_dtl', 'export_tpk_tapisan_dtl.id_pemohon', '=', 'export_tpk_maklumat_permohonan.id_pemohon')
-            ->where([
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'BP'],
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'G'],
-                ['export_tpk_maklumat_permohonan.STATUS_FAIL', '=', 'B'],
-                ['export_tpk_tapisan_dtl.STATUS', '=', 'A']
-            ])
-            ->where('export_tpk_maklumat_permohonan.no_kp', '=', $ic_number)
-            ->get();
+        $files_in_spp = DB::connection('oracle')
+        ->select( DB::raw( self::oraSPPi() . " AND (PTPKM_ICNO = '$ic_number')"));
         return $files_in_spp;
     }
 
     public static function findFileSppByNoFail($file_number)
     {
-        $files_in_spp = DB::connection('spp_srv')->table('export_tpk_maklumat_permohonan')
-            ->select('export_tpk_maklumat_permohonan.no_fail', 'export_tpk_maklumat_permohonan.nama', 'export_tpk_maklumat_permohonan.no_kp')
-            ->join('export_tpk_tapisan_dtl', 'export_tpk_tapisan_dtl.id_pemohon', '=', 'export_tpk_maklumat_permohonan.id_pemohon')
-            ->where([
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'BP'],
-                ['export_tpk_maklumat_permohonan.KOD_STATUS_MOHON', '<>', 'G'],
-                ['export_tpk_maklumat_permohonan.STATUS_FAIL', '=', 'B'],
-                ['export_tpk_tapisan_dtl.STATUS', '=', 'A']
-            ])
-            ->where('export_tpk_maklumat_permohonan.no_fail', '=', $file_number)
-            ->get();
+        $files_in_spp = DB::connection('oracle')
+        ->select( DB::raw( self::oraSPPi() . " AND (CSF_FILE_REF_NO ='$file_number')"));
         return $files_in_spp;
     }
     public static function findBorrowerRequest(Request $request)
@@ -140,12 +78,13 @@ class SppController extends Controller
         DB::table('spps')
             ->updateOrInsert(
                 [
-                    'file_number' => $input->no_fail,
+                    'file_number' => $input->csf_file_ref_no,
                 ],
                 [
-                    'ic_number' => $input->no_kp,
-                    'name' => $input->nama,
+                    'ic_number' => $input->ptpkm_icno,
+                    'name' => $input->ptpkm_full_name,
                     'location' => $input->location ?? 'Unlocated',
+                    'file_status' => $input->csf_status,
                     'status' => $input->status ?? 'unlocated',
                     'notes' => $input->notes ?? 'New Add From SPP',
                     'storage' => $input->storage ?? 'Unlocated',
