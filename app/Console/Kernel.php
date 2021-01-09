@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\getSPPiCount;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,6 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->dispatch(new getSPPiCount())->dailyAt('00:01');;
+        $schedule->command('queue:work')->dailyAt('00:05')->runInBackground();
     }
 
     /**

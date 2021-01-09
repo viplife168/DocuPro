@@ -95,14 +95,13 @@ class SysSettingController extends Controller
     {
         $settings = SysSetting::where('setting_key', $setting_key)->pluck('setting_value');
         $settings = unserialize($settings[0]);
-
+        // dd($settings);
         foreach ($settings as $key => $setting) {
             if ($setting === $setting_value) {
                 $position = $key;
             }
         }
-        array_splice($settings, $position, 0, $setting_new_value);
-        dd($settings);
+        array_splice($settings, $position, 1, $setting_new_value);
         $serialize_settings = serialize($settings);
         SysSetting::updateOrInsert(
             [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\getSPPiCount;
 use Illuminate\Http\Request;
 use App\Profile;
 
