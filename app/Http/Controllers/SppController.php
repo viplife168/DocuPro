@@ -25,6 +25,15 @@ class SppController extends Controller
         )
         WHERE SECNUM = 1';
     }
+    public static function migrateSPPiTable()
+    {
+        $ora = DB::connection('oracle')
+        ->select(DB::raw(self::oraSPPi()));
+        foreach ($ora as $input)
+        {
+            self::updateOrInsertFile($input);
+        }
+    }
     public static function findSppByICorFileNumber($input)
     {
         $ora = DB::connection('oracle')
