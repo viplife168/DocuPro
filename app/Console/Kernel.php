@@ -4,10 +4,13 @@ namespace App\Console;
 
 use App\Jobs\getSPPiCount;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
+    use DispatchesJobs;
     /**
      * The Artisan commands provided by your application.
      *
@@ -26,8 +29,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->dispatch(new getSPPiCount());
-        $schedule->command('queue:work')->delay(now()->addMinutes(5))->runInBackground();
+        $schedule->call(function () {
+            $this->dispatch(new getSPPiCount());
+        });
+        $schedule->command(Artisan::queue('queue:work'))->delay(now()->addMinutes(5))->runInBackground();
     }
 
     /**
