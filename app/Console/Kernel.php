@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $this->dispatch(new getSPPiCount());
         });
-        $schedule->command(Artisan::queue('queue:work'))->delay(now()->addMinutes(5))->runInBackground();
+        $schedule->command('queue:work')->delay(now()->addMinutes(5))->runInBackground();
     }
 
     /**
