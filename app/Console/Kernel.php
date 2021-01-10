@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->dispatch(new getSPPiCount())->dailyAt('17:30');
-        $schedule->command('queue:work')->dailyAt('17:35')->runInBackground();
+        $schedule->dispatch(new getSPPiCount());
+        $schedule->command('queue:work')->delay(now()->addMinutes(5))->runInBackground();
     }
 
     /**
