@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-md-2">Seksyen</div>
+        <div class="col-md-2">Baris</div>
         <div class="col-md-10">
             <input id="seksyen" name="seksyen" style="border:none;font-weight:bold;" value="{{$seksyen}}" />
         </div>
