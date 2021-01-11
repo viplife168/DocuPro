@@ -43,7 +43,6 @@
                                     <th>#</th>
                                     <th>No Fail</th>
                                     <th>Nama Peminjam</th>
-                                    <th>No Kad Pengenalan</th>
                                     <th>Status</th>
                                     <th>Lokasi</th>
                                     <th>Storan</th>
@@ -57,7 +56,6 @@
                                     <th scope="row">{{$key+1}}</th>
                                     <td>{{$bFail->file_number}}</td>
                                     <td>{{$bFail->name}}</td>
-                                    <td>{{$bFail->ic_number}}</td>
                                     <td>{{$bFail->status}}</td>
                                     <td>{{$bFail->location}}</td>
                                     <td>{{$bFail->storage}}</td>
