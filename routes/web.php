@@ -186,13 +186,9 @@ Route::middleware('auth')->group(function () {
         return view('staff.agihan-tugas');
     })->name('staff-agihan-tugas');
 
-    Route::get('/add-staff', function () {
-        return view('administrative.add-staff');
-    })->name('add-staff');
+    Route::get('/add-staff', 'StaffController@viewAddStaff')->name('add-staff');
 
-    Route::get('/user-management', function () {
-        return view('administrative.user-management');
-    })->name('user-management');
+    Route::get('/user-management', 'StaffController@viewUserManagement')->name('user-management');
 
     Route::get('/staff/Detail-Agihan', function () {
         return view('staff.Detail-Agihan');
