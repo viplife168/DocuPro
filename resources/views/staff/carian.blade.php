@@ -46,6 +46,7 @@
                                     <th>No Kad Pengenalan</th>
                                     <th>Status</th>
                                     <th>Lokasi</th>
+                                    <th>Storan</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -57,8 +58,9 @@
                                     <td>{{$bFail->file_number}}</td>
                                     <td>{{$bFail->name}}</td>
                                     <td>{{$bFail->ic_number}}</td>
-                                    <td>{{$bFail->location}}</td>
                                     <td>{{$bFail->status}}</td>
+                                    <td>{{$bFail->location}}</td>
+                                    <td>{{$bFail->storage}}</td>
                                     <td><button type="submit" class="btn btn-success"  name="btnSubmit" id="btnSubmit" value="Tambah-{{$bFail->file_number}}"><i class="uil-plus"></i></button></td>
                                 </tr>
                                 @endforeach

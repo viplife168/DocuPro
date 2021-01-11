@@ -155,6 +155,7 @@ $x=0;
                             <td><strong>Nama Peminjam</strong></td>
                             <td><strong>Status</strong></td>
                             <td><strong>Lokasi</strong></td>
+                            <td><strong>Storan</strong></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -168,6 +169,7 @@ $x=0;
                             <td>{{$file_details[$x]->name}}</td>
                             <td>{{$file_details[$x]->status}}</td>
                             <td>{{$file_details[$x]->location}}</td>
+                            <td>{{$file_details[$x]->storage}}</td>
                             </tr>
 
                             @else
