@@ -72,6 +72,10 @@ class ReservationController extends Controller
                 'updated_at' => now(),
             ]);
             $reservation->save();
+            $acro_department = SysSettingController::getAcro($reservation->department);
+            $res_ref = self::makeReservationRef($reservation->id,$acro_department,$reservation->user_id);
+            $reservation->reservation_ref = $res_ref;
+            $reservation->save();
 
             foreach ($request->addedFiles as $file) {
 
@@ -181,5 +185,10 @@ class ReservationController extends Controller
             'message' => 'Lanjutan Pinjaman Berjaya'
         ];
         return back()->withStatus($status);
+    }
+    public static function makeReservationRef($res_id,$department_id,$user_id)
+    {
+        $ref = $department_id ."/". sprintf("%05d", $user_id) ."/". sprintf("%05d", $res_id);
+        return $ref;
     }
 }
