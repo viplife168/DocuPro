@@ -51,7 +51,21 @@ return "odd";
                                 @foreach ($sysusers as $key=>$user)
                                 <tr role="row" class="{{check($key)}}">
                                     <td class="sorting_1 dtr-control">{{$user->name}}</td>
-                                    <td>{{$user->role}}</td>
+
+                                    <td>
+                                        <div class="row">
+                                            <div class="col">
+                                                <select id="user_role[{{ $user->id }}]" name="user_role[{{ $user->id }}]">
+                                                    <option value="{{$user->role}}">Current Role : {{$user->role}}</option>
+                                                    <option>Admin</option>
+                                                    <option>Supervisor</option>
+                                                    <option>Staff</option>
+                                                    <option>User</option>
+                                                </select>
+                                                <input type="submit" value="Set" class="btn btn-primary" id="btn_role[{{ $user->id }}]" name="btn_role[{{ $user->id }}]" >
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

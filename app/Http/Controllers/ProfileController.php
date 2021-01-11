@@ -30,12 +30,8 @@ class ProfileController extends Controller
     public static function setRole($user_id, $newrole)
     {
         $user = User::find($user_id);
-        $updated = User::updateOrCreate([
-            'id' => $user_id
-        ], [
-            'role' => $newrole
-        ]);
-        return $updated;
+        $user->role = $newrole;
+        $user->save();
     }
     public static function getAvatar()
     {

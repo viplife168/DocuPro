@@ -161,8 +161,27 @@ class StaffController extends Controller
         $users = ProfileController::getUserFromDepartment($department);
         return $users;
     }
-    public function viewAddStaff()
+    public static function viewAddStaff()
     {
+        $user = auth()->user();
+        if ($user->role == 'admin')
+        {
+            $data['sysusers'] = User::all();
+
+        }
+        else {
+            $data['sysusers'] = self::getMyStaff();
+        }
+        // dd($data['sysusers']);
+        return view('administrative.add-staff',$data);
+    }
+    public function submitAddStaff(Request $request)
+    {
+        foreach ($request->btn_role as $key=>$val)
+        {
+            $updateProfile = ProfileController::setRole($key,$request->user_role[$key]);
+        }
+        // dd($request);
         $user = auth()->user();
         if ($user->role == 'admin')
         {

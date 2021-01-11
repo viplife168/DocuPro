@@ -187,6 +187,7 @@ Route::middleware('auth')->group(function () {
     })->name('staff-agihan-tugas');
 
     Route::get('/add-staff', 'StaffController@viewAddStaff')->name('add-staff');
+    Route::post('/add-staff', 'StaffController@submitAddStaff')->name('add-staff');
 
     Route::get('/user-management', 'StaffController@viewUserManagement')->name('user-management');
 
