@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/staff/permohonan','StaffController@viewPermohonanBaru')->name('staff-permohonan');
     Route::get('/staff/permohonan-baru/{id}','StaffController@getPermohonanBaru')->name('staff-permohonan-detail');
+    Route::post('/staff/permohonan-baru/{id}','StaffController@postPermohonanBaru')->name('staff-permohonan-detail-post');
 
 
     Route::get('/staff/pemulangan', function () {
