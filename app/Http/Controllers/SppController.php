@@ -30,8 +30,15 @@ class SppController extends Controller
     {
         $last_spps_id = DB::table('spps')->latest('id')->first()->id;
         $spps_id = $last_spps_id +1;
-        $ora = DB::connection('oracle')
+        if ($last_spps_id == null)
+        {
+            $ora = DB::connection('oracle')
+            ->select(DB::raw(self::oraSPPi()));
+        }
+        else{
+            $ora = DB::connection('oracle')
             ->select(DB::raw(self::oraSPPi() . " AND (CSF_ID >='$spps_id')"));
+        }
         foreach ($ora as $input)
         {
             self::updateOrInsertFile($input);
