@@ -101,12 +101,12 @@ class SppController extends Controller
         $borrowers = self::findDocuProByICorFileNumber($input);
 
 
-        if (count($borrowers) == 0) {
-            $borrowersSpp = self::findSppByICorFileNumber($input);
-            // dd($borrowers);
-            self::compareAddSppFiles($borrowersSpp);
-            $borrowers = self::findDocuProByICorFileNumber($input);
-        }
+        // if (count($borrowers) == 0) {
+        //     $borrowersSpp = self::findSppByICorFileNumber($input);
+        //     // dd($borrowers);
+        //     self::compareAddSppFiles($borrowersSpp);
+        //     $borrowers = self::findDocuProByICorFileNumber($input);
+        // }
 
         return $borrowers;
     }
