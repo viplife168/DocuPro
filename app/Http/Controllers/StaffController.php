@@ -156,24 +156,35 @@ class StaffController extends Controller
     }
     public function postPermohonanBaru(Request $request)
     {
+        // dd($request);
         $all_incharge = [];
         foreach($request->select as $key=>$incharge)
         {
-            $file = AppSpp::where('file_number',$key);
-            $file->last_person_in_charge = $incharge;
-            $file->file_status = 'Processing';
-            $file->save();
-            if (array_search($incharge,$all_incharge)== null)
-            {
-                array_push($all_incharge,$incharge);
+
+            $file = AppSpp::where('file_number',$key)->first();
+            if ($incharge == null){
+                $file->last_person_in_charge = $request->allToStaff;
             }
+            else {
+                $file->last_person_in_charge = $incharge;
+            }
+            if (array_search($file->last_person_in_charge,$all_incharge) == null)
+            {
+                array_push($all_incharge,$file->last_person_in_charge);
+            }
+            $file->status = 'Processing';
+            $file->save();
+
         }
         $res = (object)$request->reservation;
+
         $reservation = Reservation::find($res->id);
+                // dd($reservation);
         $reservation->incharge_person = $all_incharge;
         $reservation->res_status = "Waiting To Complete";
+        $reservation->save();
+        return redirect()->route('staff-permohonan');
 
-        // dd($request);
     }
     public static function getMyStaff()
     {

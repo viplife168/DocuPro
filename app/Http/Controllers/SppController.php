@@ -18,17 +18,20 @@ class SppController extends Controller
         return '
         SELECT *
         FROM(
-        SELECT COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO, COLLEGE_STUDENT_FUNDS.CSF_STATUS, COLLEGE_STUDENT_FUNDS.CSF_DATE AS DATE_STATUS, PTPK_MASTER.PTPKM_FULL_NAME, PTPK_MASTER.PTPKM_ICNO,
+        SELECT COLLEGE_STUDENT_FUNDS.CSF_ID,COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO, COLLEGE_STUDENT_FUNDS.CSF_STATUS, COLLEGE_STUDENT_FUNDS.CSF_DATE AS DATE_STATUS, PTPK_MASTER.PTPKM_FULL_NAME, PTPK_MASTER.PTPKM_ICNO,
         row_number() OVER (PARTITION BY COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO ORDER BY COLLEGE_STUDENT_FUNDS.CSF_DATE DESC) AS SECNUM
         FROM COLLEGE_STUDENT_FUNDS
         INNER JOIN PTPK_MASTER ON COLLEGE_STUDENT_FUNDS.CSF_ICNO=PTPK_MASTER.PTPKM_ICNO AND COLLEGE_STUDENT_FUNDS.CSF_FILE_REF_NO IS NOT NULL
+        ORDER BY COLLEGE_STUDENT_FUNDS.CSF_ID
         )
         WHERE SECNUM = 1';
     }
     public static function migrateSPPiTable()
     {
+        $last_spps_id = DB::table('spps')->latest('id')->first()->id;
+        $spps_id = $last_spps_id +1;
         $ora = DB::connection('oracle')
-        ->select(DB::raw(self::oraSPPi()));
+            ->select(DB::raw(self::oraSPPi() . " AND (CSF_ID >='$spps_id')"));
         foreach ($ora as $input)
         {
             self::updateOrInsertFile($input);
@@ -127,6 +130,7 @@ class SppController extends Controller
                     'last_person_in_charge' => $input->last_person_in_charge ?? 'System',
                     "created_at" =>  now(), # new \Datetime()
                     "updated_at" => now(),  # new \Datetime()
+                    "sppi_id" => $input->csf_id,
                 ]
             );
     }
