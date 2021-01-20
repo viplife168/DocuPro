@@ -62,8 +62,8 @@
                     <tr class="table-warning">
                         <th>#</th>
                         <th>No Fail</th>
-                        <th>Peminjam</th>
-                        <th>No Kp</th>
+                        <th>Lokasi</th>
+                        <th>Storan</th>
                         <th>Tindakan</th>
                     </tr>
                 </thead>
@@ -72,25 +72,30 @@
                     <tr>
                         <td>{{$key+1}}</td>
                         <td>{{$file->file_number}}</td>
-                        <td>{{$file->name}}</td>
-                        <td>{{$file->ic_number}}</td>
+                        <td>{{$file->location}}</td>
+                        <td>{{$file->storage}}</td>
                         <td>
                             @if ($user->role != 'staff')
-                            <select class="form-control custom-select select2" id="select[{{$file->file_number}}]"
-                                name="select[{{$file->file_number}}]">
-                                <option value="">Sila Pilih Staff....</option>
-                                @foreach ($myStaff as $staff)
-                                <option>{{$staff->name}}</option>
-                                @endforeach
-                            </select>
+                                <select class="form-control custom-select select2" id="select[{{$file->file_number}}]"
+                                    name="select[{{$file->file_number}}]">
+                                    <option value="">Sila Pilih Staff....</option>
+                                    @foreach ($myStaff as $staff)
+                                    <option>{{$staff->name}}</option>
+                                    @endforeach
+                                </select>
                             @else
-                            <select class="form-control custom-select select2" id="status_fail[{{$file->file_number}}]"
-                                name="status_fail[{{$file->file_number}}]">
-                                <option value="">Status Fail</option>
-                                <option>Sedia Dikutip</option>
-                                <option>Tidak Dijumpai</option>
-                                <option>Telah Dipinjam</option>
-                            </select>
+                                @if ($file->last_person_in_charge == auth()->user()->name)
+                                    <select class="form-control custom-select select2" id="status_fail[{{$file->file_number}}]"
+                                        name="status_fail[{{$file->file_number}}]">
+                                        <option value="">Status Fail</option>
+                                        <option>Sedia Dikutip</option>
+                                        <option>Tidak Dijumpai</option>
+                                        <option>Telah Dipinjam</option>
+                                    </select>
+                                @else
+                                    <div>Assigned to {{$file->last_person_in_charge}}</div>
+
+                                @endif
                             @endif
 
                         </td>
@@ -98,8 +103,14 @@
                     @endforeach
                 </tbody>
             </table>
-            <input type="submit" class="btn btn-primary btn-block" name="btn-submit-agihan" id="btn-submit-agihan"
-                value="Simpan">
+            @if ($user->role != 'staff')
+            <input type="submit" class="btn btn-primary btn-block" name="btn_submit_agihan" id="btn_submit_agihan"
+            value="Simpan">
+            @else
+            <input type="submit" class="btn btn-primary btn-block" name="btn_tukar_status" id="btn_tukar_status"
+            value="Simpan">
+            @endif
+
         </form>
     </div>
 

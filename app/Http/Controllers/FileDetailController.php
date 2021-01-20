@@ -21,9 +21,11 @@ class FileDetailController extends Controller
         $file->updated_at = now();
         $file->save();
     }
-    public function getFileLocation($file_id)
+    public static function getFileLocation($file_number)
     {
-        $file = Spp::where('file_number', $file_id)->get();
+        $file = Spp::where('file_number', $file_number)->first();
+        $location = $file->location;
+        return $location;
     }
     public static function updateSppFile($file_id, $location = 'CRD', $storage = 'borrowed', $last_person_borrow = '', $last_person_in_charge = '', $last_deparment_borrow = '')
     {
@@ -35,8 +37,11 @@ class FileDetailController extends Controller
         $file->last_deparment_borrow = $last_deparment_borrow;
         $file->save();
     }
-    public function getFileStorage($file_id)
+    public static function getFileStorage($file_number)
     {
+        $file = Spp::where('file_number', $file_number)->first();
+        $storage = $file->storage;
+        return $storage;
     }
     public function fileStorageList($storage)
     {

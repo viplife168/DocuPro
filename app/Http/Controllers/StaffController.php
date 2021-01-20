@@ -143,7 +143,7 @@ class StaffController extends Controller
         $data['myStaff'] = $this->getMyStaff();
         $data['file_details'] = array();
         $data['reservation'] = Reservation::find($id);
-        $files = FileDetail::where('reservation_id', '=', $id)->get();
+        $files = FileDetail::where('reservation_id', '=', $id)->orderBy('incharge_officer')->get();
         foreach ($files as $file)
         {
             $details = AppSpp::where('file_number',$file->file_number)->limit(1)->get();
@@ -158,40 +158,53 @@ class StaffController extends Controller
     public function postPermohonanBaru(Request $request)
     {
         // dd($request);
-        $all_incharge = [];
-        foreach($request->select as $key=>$incharge)
+        if ($request->btn_tukar_status == 'Simpan')
         {
-
-            $file = AppSpp::where('file_number',$key)->first();
-            $fdetailID = FileDetail::where('reservation_id',$request->reservation['id'])
-            ->where('file_number',$key)->get();
-            $fdetail = $fdetailID[0];
-            if ($incharge == null){
-                $file->last_person_in_charge = $request->allToStaff;
-                $fdetail->incharge_officer =  $request->allToStaff;
-            }
-            else {
-                $file->last_person_in_charge = $incharge;
-                $fdetail->incharge_officer  = $incharge;
-            }
-            if (array_search($file->last_person_in_charge,$all_incharge) == null)
+            foreach($request->status_fail as $key=>$file)
             {
-                array_push($all_incharge,$file->last_person_in_charge);
+                $fdetail = FileDetail::where('reservation_id',$request->reservation['id'])
+                ->where('file_number',$key)->first();
+                $fdetail->status = $file;
+                $fdetail->save();
             }
-            $fdetail->file_status = 'Processing';
-            $file->status = 'Booked';
-            $fdetail->save();
-            $file->save();
-
         }
-        $res = (object)$request->reservation;
+        else
+        {
+            $all_incharge = [];
+            foreach($request->select as $key=>$incharge)
+            {
 
-        $reservation = Reservation::find($res->id);
-                // dd($reservation);
-        $reservation->incharge_person = $all_incharge;
-        $reservation->res_status = "Assigned";
-        $reservation->save();
-        return redirect()->route('staff-permohonan');
+                $file = AppSpp::where('file_number',$key)->first();
+                $fdetail = FileDetail::where('reservation_id',$request->reservation['id'])
+                ->where('file_number',$key)->first();
+                if ($incharge == null){
+                    $file->last_person_in_charge = $request->allToStaff;
+                    $fdetail->incharge_officer =  $request->allToStaff;
+                }
+                else {
+                    $file->last_person_in_charge = $incharge;
+                    $fdetail->incharge_officer  = $incharge;
+                }
+                if (array_search($file->last_person_in_charge,$all_incharge) == null)
+                {
+                    array_push($all_incharge,$file->last_person_in_charge);
+                }
+                $fdetail->file_status = 'Processing';
+                $file->status = 'Booked';
+                $fdetail->save();
+                $file->save();
+
+            }
+            $res = (object)$request->reservation;
+
+            $reservation = Reservation::find($res->id);
+                    // dd($reservation);
+            $reservation->incharge_person = $all_incharge;
+            $reservation->res_status = "Assigned";
+            $reservation->save();
+            return redirect()->route('staff-permohonan');
+        }
+
 
     }
     public static function getMyStaff()
