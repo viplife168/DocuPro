@@ -22,12 +22,12 @@ class StaffController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->stafflist = Profile::where('department','=','Cawangan Dokumentasi Dan Rekod');
+        $this->stafflist = Profile::where('department', '=', 'Cawangan Dokumentasi Dan Rekod');
     }
     public function viewCarianStaff()
     {
         $data = ['peminjam' => ''];
-        return view('staff.carian',$data);
+        return view('staff.carian', $data);
     }
     public function submitCarianStaff(Request $request)
     {
@@ -35,107 +35,92 @@ class StaffController extends Controller
         $data['user'] = auth()->user();
         if (empty($data['addedFiles'])) $data['addedFiles'] = array();
 
-        if ($request->btnSubmit == 'Cari')
-        {
+        if ($request->btnSubmit == 'Cari') {
             $peminjam = SPP::findBorrower($request->txtCari)->toArray();
 
-            if (!$peminjam)
-            {
+            if (!$peminjam) {
                 $status = [
                     'type' => 'danger',
                     'message' => 'Tiada Fail Peminjam Dijumpai'
                 ];
-                $request->session()->flash('status',$status);
-                return view('staff.carian',$data);
-            }
-            else $data['peminjam'] = $peminjam;
+                $request->session()->flash('status', $status);
+                return view('staff.carian', $data);
+            } else $data['peminjam'] = $peminjam;
 
-            return view('staff.carian',$data);
+            return view('staff.carian', $data);
             die;
-        }
-        elseif (stristr($request->btnSubmit, '-', true) == 'Tambah')
-        {
+        } elseif (stristr($request->btnSubmit, '-', true) == 'Tambah') {
             $nofail = trim(stristr($request->btnSubmit, '-'), '-');
             if ($data['addedFiles'] == '') $data['addedFiles'] = array();
             array_push($data['addedFiles'], $nofail);
-            return view('staff.carian',$data);
-        }
-        elseif (stristr($request->btnSubmit, '-', true) == 'Buang')
-        {
-            $nofail =trim(stristr($request->btnSubmit, '-'), '-');
+            return view('staff.carian', $data);
+        } elseif (stristr($request->btnSubmit, '-', true) == 'Buang') {
+            $nofail = trim(stristr($request->btnSubmit, '-'), '-');
             if (($key = array_search($nofail, $data['addedFiles'])) !== false) {
                 unset($data['addedFiles'][$key]);
                 $data['addedFiles'] = array_values($data['addedFiles']);
             }
-            return view('staff.carian',$data);
-        }
-        elseif ($request->btnSubmit == 'Cetak')
-        {
+            return view('staff.carian', $data);
+        } elseif ($request->btnSubmit == 'Cetak') {
 
             $data['file_details'] = array();
-            foreach($data['addedFiles'] as $file)
-            {
-                $details = AppSpp::where('file_number',$file)->limit(1)->get();
-                array_push($data['file_details'],$details[0]);
+            foreach ($data['addedFiles'] as $file) {
+                $details = AppSpp::where('file_number', $file)->limit(1)->get();
+                array_push($data['file_details'], $details[0]);
             }
             // dd($data);
-            return view('print.carian',$data);
+            return view('print.carian', $data);
         }
     }
     public function addFileToStorage(Request $request)
     {
         $data = $request->all();
-        return view('staff.storan-detail',$data);
+        return view('staff.storan-detail', $data);
     }
     public function addStorageItem(Request $request)
     {
-        $data=$request->all();
-        if ($request->btn_tambah == "")
-        {
+        $data = $request->all();
+        if ($request->btn_tambah == "") {
             // $data['filecount']=0;
-            $data['fails'] =  Store::getBilanganFail($request->bilik_fail,$request->rak,$request->tingkat,$request->seksyen);
+            $data['fails'] =  Store::getBilanganFail($request->bilik_fail, $request->rak, $request->tingkat, $request->seksyen);
             // $data['filecount'] = $data['files']['count'];
             // dd($data);
-            return view('staff.storan-detail',$data);
-        }
-        else{
+            return view('staff.storan-detail', $data);
+        } else {
             $tambah = $request->btn_tambah;
-            switch($tambah){
+            switch ($tambah) {
                 case 'bilik-fail':
-                    Sys::addSetting('bilik_fail',$request->bilik_fail_baru);
+                    Sys::addSetting('bilik_fail', $request->bilik_fail_baru);
                     $data['bilik_fail'] = $request->bilik_fail_baru;
                     break;
                 case 'rak':
-                    Sys::addSetting('rak',$request->rak_baru);
+                    Sys::addSetting('rak', $request->rak_baru);
                     $data['rak'] = $request->rak_baru;
                     break;
                 case 'tingkat':
-                    Sys::addSetting('tingkat',$request->tingkat_baru);
+                    Sys::addSetting('tingkat', $request->tingkat_baru);
                     $data['tingkat'] = $request->tingkat_baru;
                     break;
                 case 'seksyen':
-                    Sys::addSetting('seksyen',$request->seksyen_baru);
+                    Sys::addSetting('seksyen', $request->seksyen_baru);
                     $data['seksyen'] = $request->seksyen_baru;
                     break;
                 default:
             }
-            return view('staff.storan',$data);
+            return view('staff.storan', $data);
         }
     }
     public function viewPermohonanBaru()
     {
         $data['user'] = auth()->user();
-        if ((Gate::allows('isAdmin'))|| ((Gate::allows('isSupervisor'))))
-        {
+        if ((Gate::allows('isAdmin')) || ((Gate::allows('isSupervisor')))) {
             $data['new_reservation'] =  Reservation::where('res_status', '=', 'New')->get();
-        }
-        else
-        {
+        } else {
             $data['new_reservation'] =  Reservation::where('res_status', '=', 'Assigned')
-                ->where('incharge_person','like','%' . $data['user']->name . '%')
+                ->where('incharge_person', 'like', '%' . $data['user']->name . '%')
                 ->get();
         }
-        return view('staff.permohonan',$data);
+        return view('staff.permohonan', $data);
     }
     public function getPermohonanBaru($id)
     {
@@ -144,13 +129,12 @@ class StaffController extends Controller
         $data['file_details'] = array();
         $data['reservation'] = Reservation::find($id);
         $files = FileDetail::where('reservation_id', '=', $id)->orderBy('incharge_officer')->get();
-        foreach ($files as $file)
-        {
-            $details = AppSpp::where('file_number',$file->file_number)->limit(1)->get();
-            array_push($data['file_details'],$details[0]);
+        foreach ($files as $file) {
+            $details = AppSpp::where('file_number', $file->file_number)->limit(1)->get();
+            array_push($data['file_details'], $details[0]);
         }
 
-        $data['usr'] = User::select('name')->where('id',$data['reservation']['user_id'])->get();
+        $data['usr'] = User::select('name')->where('id', $data['reservation']['user_id'])->get();
         $data['user_name'] = $data['usr'][0]->name;
         // dd($data);
         return view('staff.permohonan-detail', $data);
@@ -158,54 +142,44 @@ class StaffController extends Controller
     public function postPermohonanBaru(Request $request)
     {
         // dd($request);
-        if ($request->btn_tukar_status == 'Simpan')
-        {
-            foreach($request->status_fail as $key=>$file)
-            {
-                $fdetail = FileDetail::where('reservation_id',$request->reservation['id'])
-                ->where('file_number',$key)->first();
+        if ($request->btn_tukar_status == 'Simpan') {
+            foreach ($request->status_fail as $key => $file) {
+                $fdetail = FileDetail::where('reservation_id', $request->reservation['id'])
+                    ->where('file_number', $key)->first();
                 $fdetail->status = $file;
                 $fdetail->save();
             }
-        }
-        else
-        {
+        } else {
             $all_incharge = [];
-            foreach($request->select as $key=>$incharge)
-            {
+            foreach ($request->select as $key => $incharge) {
 
-                $file = AppSpp::where('file_number',$key)->first();
-                $fdetail = FileDetail::where('reservation_id',$request->reservation['id'])
-                ->where('file_number',$key)->first();
-                if ($incharge == null){
+                $file = AppSpp::where('file_number', $key)->first();
+                $fdetail = FileDetail::where('reservation_id', $request->reservation['id'])
+                    ->where('file_number', $key)->first();
+                if ($incharge == null) {
                     $file->last_person_in_charge = $request->allToStaff;
                     $fdetail->incharge_officer =  $request->allToStaff;
-                }
-                else {
+                } else {
                     $file->last_person_in_charge = $incharge;
                     $fdetail->incharge_officer  = $incharge;
                 }
-                if (array_search($file->last_person_in_charge,$all_incharge) == null)
-                {
-                    array_push($all_incharge,$file->last_person_in_charge);
+                if (array_search($file->last_person_in_charge, $all_incharge) == null) {
+                    array_push($all_incharge, $file->last_person_in_charge);
                 }
                 $fdetail->file_status = 'Processing';
                 $file->status = 'Booked';
                 $fdetail->save();
                 $file->save();
-
             }
             $res = (object)$request->reservation;
 
             $reservation = Reservation::find($res->id);
-                    // dd($reservation);
+            // dd($reservation);
             $reservation->incharge_person = $all_incharge;
             $reservation->res_status = "Assigned";
             $reservation->save();
-            return redirect()->route('staff-permohonan');
         }
-
-
+        return redirect()->route('staff-permohonan');
     }
     public static function getMyStaff()
     {
@@ -217,34 +191,27 @@ class StaffController extends Controller
     public static function viewAddStaff()
     {
         $user = auth()->user();
-        if ($user->role == 'admin')
-        {
+        if ($user->role == 'admin') {
             $data['sysusers'] = User::all();
-
-        }
-        else {
+        } else {
             $data['sysusers'] = self::getMyStaff();
         }
         // dd($data['sysusers']);
-        return view('administrative.add-staff',$data);
+        return view('administrative.add-staff', $data);
     }
     public function submitAddStaff(Request $request)
     {
-        foreach ($request->btn_role as $key=>$val)
-        {
-            $updateProfile = ProfileController::setRole($key,$request->user_role[$key]);
+        foreach ($request->btn_role as $key => $val) {
+            $updateProfile = ProfileController::setRole($key, $request->user_role[$key]);
         }
         // dd($request);
         $user = auth()->user();
-        if ($user->role == 'admin')
-        {
+        if ($user->role == 'admin') {
             $data['sysusers'] = User::all();
-
-        }
-        else {
+        } else {
             $data['sysusers'] = self::getMyStaff();
         }
         // dd($data['sysusers']);
-        return view('administrative.add-staff',$data);
+        return view('administrative.add-staff', $data);
     }
 }
