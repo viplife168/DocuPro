@@ -23,7 +23,7 @@ class CreateFileDetailsTable extends Migration
             $table->integer('res_renew_count')->nullable();
             $table->string('file_status')->nullable();
             $table->string('file_notes')->nullable();
-            $table->bigInteger('incharge_officer')->nullable();
+            $table->string('incharge_officer')->nullable();
             $table->timestamps();
         });
     }

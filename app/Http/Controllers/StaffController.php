@@ -124,7 +124,7 @@ class StaffController extends Controller
     }
     public function viewPermohonanBaru()
     {
-        $user = auth()->user();
+        $data['user'] = auth()->user();
         if ((Gate::allows('isAdmin'))|| ((Gate::allows('isSupervisor'))))
         {
             $data['new_reservation'] =  Reservation::where('res_status', '=', 'New')->get();
@@ -132,13 +132,14 @@ class StaffController extends Controller
         else
         {
             $data['new_reservation'] =  Reservation::where('res_status', '=', 'Assigned')
-                ->where('incharge_person','=',$user->name);
-
+                ->where('incharge_person','like','%' . $data['user']->name . '%')
+                ->get();
         }
         return view('staff.permohonan',$data);
     }
     public function getPermohonanBaru($id)
     {
+        $data['user'] = auth()->user();
         $data['myStaff'] = $this->getMyStaff();
         $data['file_details'] = array();
         $data['reservation'] = Reservation::find($id);
@@ -162,17 +163,24 @@ class StaffController extends Controller
         {
 
             $file = AppSpp::where('file_number',$key)->first();
+            $fdetailID = FileDetail::where('reservation_id',$request->reservation['id'])
+            ->where('file_number',$key)->get();
+            $fdetail = $fdetailID[0];
             if ($incharge == null){
                 $file->last_person_in_charge = $request->allToStaff;
+                $fdetail->incharge_officer =  $request->allToStaff;
             }
             else {
                 $file->last_person_in_charge = $incharge;
+                $fdetail->incharge_officer  = $incharge;
             }
             if (array_search($file->last_person_in_charge,$all_incharge) == null)
             {
                 array_push($all_incharge,$file->last_person_in_charge);
             }
-            $file->status = 'Processing';
+            $fdetail->file_status = 'Processing';
+            $file->status = 'Booked';
+            $fdetail->save();
             $file->save();
 
         }
@@ -181,7 +189,7 @@ class StaffController extends Controller
         $reservation = Reservation::find($res->id);
                 // dd($reservation);
         $reservation->incharge_person = $all_incharge;
-        $reservation->res_status = "Waiting To Complete";
+        $reservation->res_status = "Assigned";
         $reservation->save();
         return redirect()->route('staff-permohonan');
 

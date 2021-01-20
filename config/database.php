@@ -121,18 +121,28 @@ return [
             // 'charset'       => env('DB_CHARSET', 'AL32UTF8'),
             // 'prefix'        => env('DB_PREFIX', ''),
         ],
-        // 'oracle' => [
-        //     'driver' => 'oracle',
-        //     'host' => env('DB_TNS_ORA', ''),
-        //     'port' => env('DB_PORT_ORA', '1521'),
-        //     'database' => env('DB_DATABASE_ORA', ''),
-        //     'service_name' => 'PTPK',
-        //     'username' => env('DB_USERNAME_ORA', ''),
-        //     'password' => env('DB_PASSWORD_ORA', ''),
-        //     'charset' => '',
-        //     'prefix' => '',
-        // ]
-
+        'spp3' => [
+            'driver'        => 'oracle',
+        //     'tns'            => '(DESCRIPTION =
+        //     (ADDRESS_LIST =
+        //         (ADDRESS =
+        //             (COMMUNITY = tcp.world)
+        //             (PROTOCOL = TCP)
+        //             (HOST = 192.168.10.16)
+        //             (PORT = 1521)
+        //         )
+        //     )
+        //     (CONNECT_DATA = (SID = PTPK)
+        // )',
+            'host'          => env('DB_HOST_SPP', ''),
+            'port'          => env('DB_PORT_SPP', '1521'),
+            'database'      => env('DB_DATABASE_SPP', ''),
+            'username'      => env('DB_USERNAME_SPP', ''),
+            'password'      => env('DB_PASSWORD_SPP', ''),
+            // 'service_name'  => 'PTPK',
+            // 'charset'       => env('DB_CHARSET', 'AL32UTF8'),
+            // 'prefix'        => env('DB_PREFIX', ''),
+        ],
     ],
 
     /*

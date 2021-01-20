@@ -38,13 +38,14 @@
         <form action="" method="post">
             @csrf
             @php
-                $res = $reservation->toArray();
+            $res = $reservation->toArray();
             @endphp
             @foreach ($res as $key=>$res)
             <input type="hidden" id="reservation[{{$key}}]" name="reservation[{{$key}}]" value="{{$res}}">
             @endforeach
 
 
+            @if ($user->role != 'staff')
             <div class="row">
                 <div class="col form-group">
                     <select class="form-control custom-select select2" id="allToStaff" name="allToStaff">
@@ -55,6 +56,7 @@
                     </select>
                 </div>
             </div>
+            @endif
             <table class="table table-hover table-sm">
                 <thead>
                     <tr class="table-warning">
@@ -73,6 +75,7 @@
                         <td>{{$file->name}}</td>
                         <td>{{$file->ic_number}}</td>
                         <td>
+                            @if ($user->role != 'staff')
                             <select class="form-control custom-select select2" id="select[{{$file->file_number}}]"
                                 name="select[{{$file->file_number}}]">
                                 <option value="">Sila Pilih Staff....</option>
@@ -80,12 +83,23 @@
                                 <option>{{$staff->name}}</option>
                                 @endforeach
                             </select>
+                            @else
+                            <select class="form-control custom-select select2" id="status_fail[{{$file->file_number}}]"
+                                name="status_fail[{{$file->file_number}}]">
+                                <option value="">Status Fail</option>
+                                <option>Sedia Dikutip</option>
+                                <option>Tidak Dijumpai</option>
+                                <option>Telah Dipinjam</option>
+                            </select>
+                            @endif
+
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-            <input type="submit" class="btn btn-primary btn-block" name="btn-submit-agihan" id="btn-submit-agihan" value="Simpan">
+            <input type="submit" class="btn btn-primary btn-block" name="btn-submit-agihan" id="btn-submit-agihan"
+                value="Simpan">
         </form>
     </div>
 

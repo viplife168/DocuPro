@@ -125,4 +125,5 @@ class ProfileController extends Controller
         $name = $user->name;
         return $name;
     }
+
 }

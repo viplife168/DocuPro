@@ -43,6 +43,12 @@ class SppController extends Controller
         {
             self::updateOrInsertFile($input);
         }
+        return count($ora);
+    }
+    public static function getSPP()
+    {
+        $last_spp3_id = DB::connection('spp3')->table('TPK_MAKLUMAT_PERMOHONAN')->latest('ID_PEMOHON')->first()->id_pemohon;
+        return $last_spp3_id;
     }
     public static function findSppByICorFileNumber($input)
     {
