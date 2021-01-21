@@ -95,13 +95,23 @@
     @endif
 
     <div class="centered">
-        <div class="title">
-            <img src="images\logo2.png">
-            DocuPro
+        <div class="row">
+            <div class="col align-right">
+                <img src="images\logo2.png">
+            </div>
+            <div class="col">
+                <div class="title mb-0 pb-0">
+                    BilikFail
+                </div>
+                <div class="subtext mt-0 pt-0">
+                    [- Filing system for CRD -]
+                </div>
+            </div>
         </div>
-        <div class="subtext">
-            Filing system for CRD
-        </div>
+
+
+
+
 
 
     </div>

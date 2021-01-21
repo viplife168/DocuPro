@@ -114,9 +114,9 @@ class StaffController extends Controller
     {
         $data['user'] = auth()->user();
         if ((Gate::allows('isAdmin')) || ((Gate::allows('isSupervisor')))) {
-            $data['new_reservation'] =  Reservation::where('res_status', '=', 'New')->get();
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'Baru')->get();
         } else {
-            $data['new_reservation'] =  Reservation::where('res_status', '=', 'Assigned')
+            $data['new_reservation'] =  Reservation::where('res_status', '=', 'Telah Diagih')
                 ->where('incharge_person', 'like', '%' . $data['user']->name . '%')
                 ->get();
         }
@@ -146,7 +146,7 @@ class StaffController extends Controller
             foreach ($request->status_fail as $key => $file) {
                 $fdetail = FileDetail::where('reservation_id', $request->reservation['id'])
                     ->where('file_number', $key)->first();
-                $fdetail->status = $file;
+                $fdetail->file_status = $file;
                 $fdetail->save();
             }
         } else {
@@ -166,8 +166,8 @@ class StaffController extends Controller
                 if (array_search($file->last_person_in_charge, $all_incharge) == null) {
                     array_push($all_incharge, $file->last_person_in_charge);
                 }
-                $fdetail->file_status = 'Processing';
-                $file->status = 'Booked';
+                $fdetail->file_status = 'Sedang Diproses';
+                $file->status = 'Ditempah';
                 $fdetail->save();
                 $file->save();
             }
@@ -176,7 +176,7 @@ class StaffController extends Controller
             $reservation = Reservation::find($res->id);
             // dd($reservation);
             $reservation->incharge_person = $all_incharge;
-            $reservation->res_status = "Assigned";
+            $reservation->res_status = "Telah Diagih";
             $reservation->save();
         }
         return redirect()->route('staff-permohonan');

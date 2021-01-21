@@ -66,7 +66,7 @@ class ReservationController extends Controller
                 'apply_date' => now(),
                 'collection_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->collection_date))),
                 'return_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->return_date))),
-                'res_status' => 'New',
+                'res_status' => 'Baru',
                 'res_notes' => $request->notes,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -85,7 +85,7 @@ class ReservationController extends Controller
                     'res_collect_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->collection_date))),
                     'res_return_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->return_date))),
                     'res_renew_count' => 0,
-                    'file_status' => 'Booked',
+                    'file_status' => 'Sedang Diproses',
                     'file_notes' => $request->notes,
                     'created_at' => now(),
                     'updated_at' => now(),
@@ -106,7 +106,7 @@ class ReservationController extends Controller
     public function changeResStatus($reservation_id, $status)
     {
         $reservation = Reservation::find($reservation_id);
-        $reservation->res_status = $status;
+        $reservation-> = $status;
         $reservation->updated_at = now();
         $reservation->save();
     }
@@ -129,8 +129,9 @@ class ReservationController extends Controller
     {
         $permohonan = DB::table('reservations')
             ->where('user_id' , auth()->user()->id)
-            ->where('res_status','New')
-            ->orWhere('res_status','Processed')
+            ->where('','Baru')
+            ->orWhere('res_status','Telah Diagih')
+            ->orWhere('res_status','Telah Diagih')
             ->get();
             $data['permohonan'] = $permohonan->toArray();
         return view('reservation.active',$data);
